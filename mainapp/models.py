@@ -76,30 +76,12 @@ class Status(models.Model):
     StatusID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     Status = models.CharField(max_length=50)
 
-class State(models.Model):
-    class Meta:
-        db_table = "State"
-
-    StateID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    StateName = models.CharField(max_length=50)
-
-
-class District(models.Model):
-    class Meta:
-        db_table = "District"
-
-    DistrictID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    DistrictName = models.CharField(max_length=50)
-    State = models.ForeignKey(State, on_delete=models.CASCADE,db_column='StateID')
-
-
 class City(models.Model):
     class Meta:
         db_table = "City"
 
     CityID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     CityName = models.CharField(max_length=50)
-    District = models.ForeignKey(District, on_delete=models.CASCADE,db_column='DistrictID')
 
 class Gender(models.Model):
     class Meta:
@@ -136,7 +118,8 @@ class ErrorMessages(models.Model):
     User = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True, db_column='UserID')
     Status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, db_column='StatusID')
     CreatedAt = models.DateTimeField(default=datetime.datetime.now)
-    UpdatedAt = models.DateTimeField(auto_now_add=True, null=True)         
+    UpdatedAt = models.DateTimeField(auto_now_add=True, null=True) 
+            
 
 
          
