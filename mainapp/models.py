@@ -34,7 +34,7 @@ class UserManager(BaseUserManager):
             raise ValueError('Users must have an email daddress.')
 
         email = self.normalize_email(email)
-        user = self.model(Email = email, FirstName = first_name, LastName = last_name, Username = username, UserType = UserTypes.objects.get(UserTypeID = user_type) , PhoneNumber = phone_number, **other_fields)
+        user = self.model(Email = email, FirstName = first_name, LastName = last_name, Username = username, UserType = user_type , PhoneNumber = phone_number, **other_fields)
         user.set_password(password)
         user.save()
         return user    
@@ -50,7 +50,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     LastName = models.CharField(max_length=50, default='')
     ProfileImage = models.CharField(max_length=300, default='')
     Email = models.EmailField(max_length=200, unique=True, editable=True)
-    Username = models.CharField(max_length=100, unique=True)
+    UserName = models.CharField(max_length=100, unique=True)
     PhoneNumber = models.CharField(max_length=15, null=True)
     StartDate = models.DateTimeField(default=timezone.now)
     LastLogin = models.DateTimeField(auto_now=True)
@@ -64,7 +64,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'Email'
-    REQUIRED_FIELDS = ['FirstName','LastName','Username','UserType']
+    REQUIRED_FIELDS = ['FirstName','LastName','Username','UserType','PhoneNumber']
 
     def __str__(self):
         return self.Email 

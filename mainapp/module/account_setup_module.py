@@ -30,6 +30,7 @@ class AccountSetupModule:
             email = self.data['email']
             phone_number = self.data['phoneNumber']
             user_name = self.data['userName']
+            password = self.data['password']
 
             if md.Users.objects.filter(Email = email).exists():
                 return message('Email Already Exists') ,400
@@ -40,12 +41,13 @@ class AccountSetupModule:
             if md.Users.objects.filter(UserName = user_name).exists():
                 return message('UserName Already Exists') ,400
             
-            user = md.Users(FirstName = first_name , LastName = last_name , UserName = user_name ,Email = email ,PhoneNumber = phone_number , IsActive = False , UserType = md.UserTypes.objects.get(UserType = 'NormalUser'))
+            user = md.Users(FirstName = first_name , LastName = last_name , UserName = user_name ,Email = email ,PhoneNumber = phone_number , IsActive = False , UserType = md.UserTypes.objects.get(UserType = 'NormalUsers'))
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
-            activation_url = 'http://127.0.0.1:8000/web/api/v1/user/activate/'+ uid + '/' + token
+            activation_url = 'http://127.0.0.1:8000/web/api/v1/account/user/activate/'+ uid + '/' + token
             print(activation_url)
             # send_activation_email.delay(user.email, activation_url)
+            user.set_password(password)
             user.save()
             return message('Account Created Successfully.Please Check Mail for Activating Account !') ,201
         
@@ -73,23 +75,24 @@ class AccountSetupModule:
 
     def user_login(self,request):
         try:
-            email = request.data['email']
-            password = request.data['password']
+            email = self.data['email']
+            password = self.data['password']
 
             user = md.Users.objects.get(Email = email)    
-            if authenticate(request, email =email, password =password) is not None:
+            if authenticate(request, username=email, password=password):
                 if user.IsActive:
                     login(request,user)
                     token, created = Token.objects.get_or_create(user=user)  
                     user_details = {
-                        'token' : token,
+                        'token' : token.key,
                         'email' : user.Email,
-                        'userName' : user.Username ,
+                        'userName' : user.UserName ,
                         'fullName' : user.FirstName + ' ' + user.LastName ,
                         'phoneNumber' : user.PhoneNumber,
                         'userType': user.UserType.UserType
                     }
                     user.LoginStatus = 'Login'
+                    user.LoginTry = user.LoginTry + 1
                     user.save()
                     return user_details , 200
                 return message('User Account is InActive.') , 402 
@@ -174,7 +177,19 @@ class AccountSetupModule:
         user.set_password(passsword)
         user.save()
         return message('Password Changed Successfully') ,200
-            
+    
+    def logout_usr(self ,request):
+        try:
+            token = Token.objects.get(user=request.user)
+            token.delete()
+            user = md.Users.objects.get(Email = request.user)
+            user.LoginStatus = 'LogOut'
+            user.save()
+            logout(request)
+            return message('Logout Successfully'), 200   
+        except Exception as e:
+            print(e) 
+            return message('Something Went Wrong') ,500     
 
 
 
