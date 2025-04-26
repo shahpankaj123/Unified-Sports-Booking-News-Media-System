@@ -17,8 +17,9 @@ from django.utils import timezone
 from datetime import timedelta
 
 class AccountSetupModule:
+
     def __init__(self,data):
-        self.data
+        self.data = data
         self.date = timezone.now().date()
         self.time = timezone.now().time()
 
@@ -43,7 +44,7 @@ class AccountSetupModule:
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             activation_url = 'http://127.0.0.1:8000/web/api/v1/user/activate/'+ uid + '/' + token
-            print(token)
+            print(activation_url)
             # send_activation_email.delay(user.email, activation_url)
             user.save()
             return message('Account Created Successfully.Please Check Mail for Activating Account !') ,201
@@ -91,7 +92,7 @@ class AccountSetupModule:
                     user.LoginStatus = 'Login'
                     user.save()
                     return user_details , 200
-                return message('User Account is InActive.') , 403  
+                return message('User Account is InActive.') , 402 
             return message('Invalid Email or Password') ,400
         except KeyError as key:
             return message(f'{key} is Missing') ,404
@@ -107,9 +108,9 @@ class AccountSetupModule:
             email = self.data['email']
             if is_none(email):
                 return message('Invalid Email'), 404
-            user=md.Users.objects.get(Email=email)
+            user = md.Users.objects.get(Email=email)
             if user is not None:
-                otp =int(random.randint(1000,10000))
+                otp = int(random.randint(1000,10000))
                 md.OTPData.objects.create(OTP = otp , OTPUser = user , ValidDateTill = self.date , ValidTimeTill = valid_time)
                 print(otp)
                 # send_reset_password_email.delay(email,otp)
@@ -172,7 +173,7 @@ class AccountSetupModule:
 
         user.set_password(passsword)
         user.save()
-        return message('Password Change Successfully') ,200
+        return message('Password Changed Successfully') ,200
             
 
 
