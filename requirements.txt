@@ -1,5 +1,14 @@
 asgiref==3.8.1
+cffi==1.17.1
+cryptography==44.0.2
 Django==5.2
+django-appconf==1.1.0
+django-encrypted-model-fields==0.6.5
+django-redis==5.4.0
 djangorestframework==3.16.0
+mysqlclient==2.1.0
+pillow==11.2.1
+pycparser==2.22
 python-decouple==3.8
+redis==5.2.1
 sqlparse==0.5.3
