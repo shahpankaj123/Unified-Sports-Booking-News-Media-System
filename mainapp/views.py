@@ -56,8 +56,9 @@ class SendOTPView(APIView):
 
     permission_classes = [AllowAny]
 
-    def get(self, request, *args, **kwargs):
-        data = request.GET
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        print(data)
         try:
             res_data , res_status = AccountSetupModule(data=data).send_otp_for_password_change()
             return Response(res_data,res_status)

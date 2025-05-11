@@ -20,6 +20,7 @@ class AccountSetupModule:
 
     def __init__(self,data):
         self.data = data
+        self.now = timezone.now()
         self.date = timezone.now().date()
         self.time = timezone.now().time()
 
@@ -106,7 +107,8 @@ class AccountSetupModule:
             return message('Something Went Wrong') ,500  
         
     def send_otp_for_password_change(self):
-        valid_time = self.time + timedelta(minutes=5)
+        valid_datetime = self.now + timedelta(minutes=5)
+        valid_time = valid_datetime.time()
         try:
             email = self.data['email']
             if is_none(email):
@@ -130,7 +132,7 @@ class AccountSetupModule:
     def verify_otp_for_password_change(self):
         try:
             email=self.data['email']
-            otp=int(self.data['otp'])
+            otp=str(self.data['otp'])
 
             if is_none(email):
                 return message('Email Not Found') ,404
@@ -139,13 +141,14 @@ class AccountSetupModule:
     
             user = md.Users.objects.get(Email=email)
             otp_data = md.OTPData.objects.get(OTPUser = user , IsValid = True , ValidDateTill = self.date)
+            print(otp , otp_data.OTP ,self.time ,otp_data.ValidTimeTill)
 
             if self.time <= otp_data.ValidTimeTill:
-                if otp_data.OTP == otp :
+                if str(otp_data.OTP) == str(otp):
                     otp_data.IsValid = False
                     otp_data.save()
                     return message('OTP Verified Successfully') ,200
-                return message('OTP Not Matched') , 402
+                return message('OTP Not Matched') , 400
             return message('OTP Experified') , 400
         except KeyError as key:
             return message(f'{key} is Missing') ,404
@@ -155,10 +158,10 @@ class AccountSetupModule:
             print(e)
             return message('Something Went Wrong') ,500  
         
-    def change_password(self,request):
-        email=request.data.get('email')
-        passsword=request.data.get('password')
-        password1=request.data.get('password1')
+    def change_password(self):
+        email=self.data.get('email')
+        passsword=self.data.get('password')
+        password1=self.data.get('password1')
 
         if is_none(email):
             return message('Email Not Found') ,404

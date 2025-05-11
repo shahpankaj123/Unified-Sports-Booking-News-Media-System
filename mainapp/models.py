@@ -20,21 +20,21 @@ class UserTypes(models.Model):
 
 
 class UserManager(BaseUserManager):
-    def create_superuser(self, Email,FirstName, LastName, Username, password, UserType, PhoneNumber,  **other_fields):
+    def create_superuser(self, Email ,FirstName, LastName, UserName, password , PhoneNumber,  **other_fields):
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_superuser', True)
         other_fields.setdefault('IsActive', True)
 
         if other_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
-        return self.create_user(username = Username, email = Email, password = password, first_name = FirstName, last_name= LastName, phone_number=PhoneNumber, user_type = UserType, **other_fields )
+        return self.create_user(username = UserName, email = Email, password = password, first_name = FirstName, last_name= LastName, phone_number=PhoneNumber, user_type = UserTypes.objects.get(UserType = 'Admin'), **other_fields )
 
     def create_user(self, username, email, password, first_name, last_name, user_type,phone_number, **other_fields):
         if not email:
             raise ValueError('Users must have an email daddress.')
 
         email = self.normalize_email(email)
-        user = self.model(Email = email, FirstName = first_name, LastName = last_name, Username = username, UserType = user_type , PhoneNumber = phone_number, **other_fields)
+        user = self.model(Email = email, FirstName = first_name, LastName = last_name, UserName = username, UserType = user_type , PhoneNumber = phone_number, **other_fields)
         user.set_password(password)
         user.save()
         return user    
@@ -64,7 +64,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'Email'
-    REQUIRED_FIELDS = ['FirstName','LastName','Username','UserType','PhoneNumber']
+    REQUIRED_FIELDS = ['FirstName','LastName','UserName','PhoneNumber']
 
     def __str__(self):
         return self.Email 
