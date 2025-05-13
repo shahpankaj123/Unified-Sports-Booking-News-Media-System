@@ -3,6 +3,7 @@ cffi==1.17.1
 cryptography==44.0.2
 Django==5.2
 django-appconf==1.1.0
+django-cors-headers==4.7.0
 django-encrypted-model-fields==0.6.5
 django-redis==5.4.0
 djangorestframework==3.16.0
