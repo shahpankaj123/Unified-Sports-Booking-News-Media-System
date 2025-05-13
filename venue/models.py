@@ -40,6 +40,7 @@ class Court(models.Model):
     CourtID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     Venue = models.ForeignKey(Venue, on_delete=models.SET_NULL, related_name='venue',null=True)
     Name = models.CharField(max_length=50)
+    SportCategory = models.ForeignKey(md.SportCategory,on_delete=models.SET_NULL, null=True)
     SurfaceType = models.CharField(max_length=20, choices=SURFACE_TYPES)
     Capacity = models.PositiveIntegerField()
     HourlyRate = models.DecimalField(max_digits=8, decimal_places=2)

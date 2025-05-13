@@ -119,6 +119,15 @@ class ErrorMessages(models.Model):
     Status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, db_column='StatusID')
     CreatedAt = models.DateTimeField(default=datetime.datetime.now)
     UpdatedAt = models.DateTimeField(auto_now_add=True, null=True) 
+
+class SportCategory(models.Model):
+
+    class Meta:
+        db_table = 'SportCategory'
+
+    SportCategoryID = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    SportCategory = models.CharField(max_length=100)
+
             
 
 
