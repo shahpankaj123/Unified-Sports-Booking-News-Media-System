@@ -76,6 +76,7 @@ class AccountSetupModule:
 
     def user_login(self,request):
         try:
+            print(self.data)
             email = self.data['email']
             password = self.data['password']
 

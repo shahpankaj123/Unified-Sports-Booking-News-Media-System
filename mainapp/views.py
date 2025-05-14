@@ -41,10 +41,11 @@ class ActivateUsersView(APIView):
 
     permission_classes = [AllowAny]
 
-    def get(self, request, id , token ,*args, **kwargs):
+    def get(self, request, id , token ):
         print(id,token)
         try:
             res_data , res_status = AccountSetupModule(data=None).activate_user_account(id=id ,token=token)
+            print(res_data,res_status)
             if res_data and res_status == 200:
                 return HttpResponseRedirect('http://localhost:5173/verify-email')
             return HttpResponseRedirect('http://localhost:5173/valid-error') 
