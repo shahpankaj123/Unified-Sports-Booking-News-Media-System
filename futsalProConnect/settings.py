@@ -44,7 +44,8 @@ INSTALLED_APPS = [
 INTERNAL_APPS = [
     'mainapp',
     'venue',
-    'adminapp'
+    'adminapp',
+    'adds'
 ]
 
 EXTERNAL_APPS = [
