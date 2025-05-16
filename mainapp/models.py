@@ -18,6 +18,9 @@ class UserTypes(models.Model):
     def userTypeId(self): return self.UserTypeID
     def userType(self): return self.UserType
 
+    def __str__(self):
+        return self.UserType
+
 
 class UserManager(BaseUserManager):
     def create_superuser(self, Email ,FirstName, LastName, UserName, password , PhoneNumber,  **other_fields):
@@ -76,12 +79,18 @@ class Status(models.Model):
     StatusID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     Status = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.Status
+
 class City(models.Model):
     class Meta:
         db_table = "City"
 
     CityID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     CityName = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.CityName
 
 class Gender(models.Model):
     class Meta:
@@ -90,12 +99,18 @@ class Gender(models.Model):
     GenderID = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
     Gender = models.CharField(max_length=25)
 
+    def __str__(self):
+        return self.Gender
+
 class PaymentType(models.Model):
     class Meta:
         db_table = "PaymentType"
 
     PaymentTypeID = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
     PaymentTypeName = models.CharField(max_length=50) 
+
+    def __str__(self):
+        return self.PaymentTypeName
 
 class OTPData(models.Model):
     class Meta:
@@ -106,7 +121,10 @@ class OTPData(models.Model):
     OTPUser = models.ForeignKey(Users,on_delete=models.SET_NULL, null=True)
     IsValid = models.BooleanField(default = True)
     ValidDateTill = models.DateField()
-    ValidTimeTill = models.TimeField()  
+    ValidTimeTill = models.TimeField() 
+
+    def __str__(self):
+        return self.OTPUser.Email + self.OTP
 
 class ErrorMessages(models.Model):
     class Meta:
@@ -127,6 +145,9 @@ class SportCategory(models.Model):
 
     SportCategoryID = models.UUIDField(primary_key=True, default=uuid.uuid4)
     SportCategory = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.SportCategory
 
             
 

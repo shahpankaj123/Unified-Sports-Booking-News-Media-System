@@ -20,11 +20,14 @@ class Venue(models.Model):
     PhoneNumber = models.CharField(max_length=15)
     Email = models.EmailField()
     Description = models.TextField(blank=True)
-    OpeningTime = models.TimeField()
-    ClosingTime = models.TimeField()
+    OpeningTime = models.TimeField(null=True)
+    ClosingTime = models.TimeField(null=True)
     IsActive = models.BooleanField(default=False)
     CreatedAt = models.DateTimeField(auto_now_add=True)
     UpdatedAt = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.Name + self.Owner.FirstName
 
 class Court(models.Model):
 
@@ -47,6 +50,9 @@ class Court(models.Model):
     IsActive = models.BooleanField(default=False)
     CreatedAt = models.DateTimeField(auto_now_add=True)
     UpdatedAt = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.Name + self.SportCategory.SportCategory
     
 
 class CourtImages(models.Model):

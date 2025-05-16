@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -198,3 +199,14 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = config('email_user')
 EMAIL_HOST_PASSWORD = config('email_pass')
 EMAIL_USE_SSL = False
+
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Super Admin Pannels",
+    "site_header": "Dashboard",
+    "welcome_sign": "Welcome to  Spuer Admin Portal Of E-Sports",
+    "show_sidebar": True,
+    "site_brand": "E-Sports",
+}
+

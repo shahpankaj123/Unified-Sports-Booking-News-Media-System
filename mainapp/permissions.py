@@ -7,7 +7,7 @@ class AdminUserPermission(BasePermission):
             return bool(False)
         if request.user is None:
             return bool(False)
-        user_type = Users.objects.get(email=request.user)
+        user_type = Users.objects.get(Email=request.user).UserType.UserType
         if user_type == 'Admin':
             return bool(True)
         return bool(False)
@@ -18,7 +18,7 @@ class VenueUserPermission(BasePermission):
             return bool(False)
         if request.user is None:
             return bool(False)
-        user_type = Users.objects.get(email=request.user)
+        user_type = Users.objects.get(Email=request.user).UserType.UserType
         if user_type == 'VenueUsers':
             return bool(True)
         return bool(False) 
@@ -29,7 +29,7 @@ class NormalUserPermission(BasePermission):
             return bool(False)
         if request.user is None:
             return bool(False)
-        user_type = Users.objects.get(email=request.user)
+        user_type = Users.objects.get(Email=request.user).UserType.UserType
         if user_type == 'NormalUsers':
             return bool(True)
         return bool(False)        
