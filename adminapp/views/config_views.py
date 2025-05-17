@@ -114,7 +114,7 @@ class DelCityView(AdminUserPermissionMixin, APIView):
     def post(self, request):
         data = request.data
         try:
-            res_data, res_status = CityModule(data=data).del_city()
+            res_data, res_status = CityModule(data=data).delete_city()
             return Response(res_data, res_status)
         except Exception as e:
             print(e)

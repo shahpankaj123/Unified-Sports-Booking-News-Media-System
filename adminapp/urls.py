@@ -1,6 +1,7 @@
 from django.urls import path
 
 from adminapp.views import config_views as cvw
+from adminapp.views import views as v
 
 
 urlpatterns = [
@@ -10,7 +11,7 @@ urlpatterns = [
     path('v1/GetUserTypeById',cvw.GetUserTypeByIdView.as_view()),
     path('v1/CreateUserType',cvw.CreateUserTypeView.as_view()),
     path('v1/UpdateUserType',cvw.UpdateUserTypeView.as_view()),
-    path('DelUserType',cvw.DelUserTypeView.as_view()),
+    path('v1/DelUserType',cvw.DelUserTypeView.as_view()),
 
     path('v1/GetAllCity', cvw.GetAllCityView.as_view()),
     path('v1/GetCityById', cvw.GetCityByIdView.as_view()),
@@ -41,5 +42,7 @@ urlpatterns = [
     path('v1/CreateGender', cvw.CreateGenderView.as_view()),
     path('v1/UpdateGender', cvw.UpdateGenderView.as_view()),
     path('v1/DelGender', cvw.DelGenderView.as_view()),
+
+    path('v1/DashboardData',v.DasboardDataView.as_view()),
 
 ]

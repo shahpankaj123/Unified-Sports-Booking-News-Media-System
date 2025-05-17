@@ -25,7 +25,7 @@ class StatusModule:
     def get_status_by_id(self):
         try:
             status_id = self.data['statusId']
-            return mm.Status.objects.values(statusId = F('StatusID') ,status = F('Status')).get(StatusID = status_id)
+            return mm.Status.objects.values(statusId = F('StatusID') ,status = F('Status')).get(StatusID = status_id) ,200
         except KeyError as key:
             return message(f'{key} is Missing') ,404
         except Exception as e:

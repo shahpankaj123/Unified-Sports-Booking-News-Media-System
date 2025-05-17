@@ -96,7 +96,7 @@ class Gender(models.Model):
     class Meta:
         db_table = 'Gender'
 
-    GenderID = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
+    GenderID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     Gender = models.CharField(max_length=25)
 
     def __str__(self):
@@ -106,7 +106,7 @@ class PaymentType(models.Model):
     class Meta:
         db_table = "PaymentType"
 
-    PaymentTypeID = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
+    PaymentTypeID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     PaymentTypeName = models.CharField(max_length=50) 
 
     def __str__(self):
@@ -116,7 +116,7 @@ class OTPData(models.Model):
     class Meta:
         db_table = "OTPData"
 
-    OTPDataID = models.UUIDField(primary_key = True, default = uuid.uuid4(), editable = False)
+    OTPDataID = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     OTP = models.CharField(max_length = 6, null = False)
     OTPUser = models.ForeignKey(Users,on_delete=models.SET_NULL, null=True)
     IsValid = models.BooleanField(default = True)

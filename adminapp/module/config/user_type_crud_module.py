@@ -25,7 +25,7 @@ class UserTypeModule:
     def get_userType_by_id(self):
         try:
             user_type_id = self.data['userTypeId']
-            return mm.UserTypes.objects.values(userTypeId = F('UserTypeID') ,userType = F('UserType')).get(UserTypeID = user_type_id)
+            return mm.UserTypes.objects.values(userTypeId = F('UserTypeID') ,userType = F('UserType')).get(UserTypeID = user_type_id) ,200
         except KeyError as key:
             return message(f'{key} is Missing') ,404
         except Exception as e:
