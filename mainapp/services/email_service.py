@@ -2,8 +2,18 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
+from threading import Thread
 
 def send_activation_email(recipient_email, activation_url):
+    try:
+        thread = Thread(target=__activate_email ,args=(recipient_email,activation_url))
+        thread.start()
+    except Exception as e:
+        print(e)
+        pass    
+
+def  __activate_email(recipient_email,activation_url):
+
     subject = 'Activate your account on '
     from_email = settings.EMAIL_HOST_USER
     to = [recipient_email]
@@ -13,8 +23,19 @@ def send_activation_email(recipient_email, activation_url):
     email = EmailMultiAlternatives(subject, text_content, from_email, to)
     email.attach_alternative(html_content, "text/html")
     email.send()
+    print('successfully send') 
     
 def send_reset_password_email(recipient_email, activation_url):
+
+    try:
+        thread = Thread(target=__reset_password ,args=(recipient_email,activation_url))
+        thread.start()
+    except Exception as e:
+        print(e)
+        pass    
+
+def __reset_password(recipient_email, activation_url):
+
     subject = 'Reset Password'
     from_email = settings.EMAIL_HOST_USER
     to = [recipient_email]
@@ -23,5 +44,6 @@ def send_reset_password_email(recipient_email, activation_url):
     text_content = strip_tags(html_content)
     email = EmailMultiAlternatives(subject, text_content, from_email, to)
     email.attach_alternative(html_content, "text/html")
-    email.send() 
+    email.send()
+    print('successfully send') 
 

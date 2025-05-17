@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
+from mainapp.services.email_service import send_reset_password_email ,send_activation_email
 
 from django.http import HttpResponseRedirect
 
@@ -47,7 +48,7 @@ class AccountSetupModule:
             token = default_token_generator.make_token(user)
             activation_url = 'http://127.0.0.1:8000/web/api/v1/account/user/activate/'+ uid + '/' + token
             print(activation_url)
-            # send_activation_email.delay(user.email, activation_url)
+            send_activation_email(user.Email, activation_url)
             user.set_password(password)
             user.save()
             return message('Account Created Successfully.Please Check Mail for Activating Account !') ,201
@@ -72,7 +73,7 @@ class AccountSetupModule:
             user.save()
             return True , 200
         else:
-            return False , 400    
+            return False , 500    
 
     def user_login(self,request):
         try:
@@ -117,9 +118,8 @@ class AccountSetupModule:
             user = md.Users.objects.get(Email=email)
             if user is not None:
                 otp = int(random.randint(1000,10000))
+                send_reset_password_email(email,otp)
                 md.OTPData.objects.create(OTP = otp , OTPUser = user , ValidDateTill = self.date , ValidTimeTill = valid_time)
-                print(otp)
-                # send_reset_password_email.delay(email,otp)
                 return message('Please check your mail for OTP')  ,200 
             return message('User Not Found') ,400
         except KeyError as key:
@@ -141,7 +141,7 @@ class AccountSetupModule:
                 return message('OTP Not Found') ,404
     
             user = md.Users.objects.get(Email=email)
-            otp_data = md.OTPData.objects.get(OTPUser = user , IsValid = True , ValidDateTill = self.date)
+            otp_data = md.OTPData.objects.filter(OTPUser = user , IsValid = True , ValidDateTill = self.date).order_by('-ValidDateTill','-ValidTimeTill').first()
             print(otp , otp_data.OTP ,self.time ,otp_data.ValidTimeTill)
 
             if self.time <= otp_data.ValidTimeTill:

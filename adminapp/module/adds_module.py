@@ -18,7 +18,7 @@ class PostModule:
             description = self.data['description']
             category_id = self.data['categoryId']
             user_id = self.data['userId']
-            post_image = self.data['postImage']
+            post_image = self.request.FILES['postImage']
 
             category = mmd.SportCategory.objects.get(SportCategoryID=category_id)
             author = mmd.Users.objects.get(UserID = user_id)
@@ -63,8 +63,9 @@ class PostModule:
             print(e)
             return message("Failed to retrieve posts"), 500
 
-    def get_post_detail(self, post_id):
+    def get_post_detail(self):
         try:
+            post_id = self.data['postId']
             post = mm.Post.objects.select_related('Author', 'Category').get(PostID=post_id)
             data = {
                 "postID": str(post.PostID),
@@ -87,27 +88,34 @@ class PostModule:
             print(e)
             return message("Something went wrong"), 500
 
-    def update_post(self, post_id):
+    def update_post(self):
         try:
+            post_id = self.data['postId']
+            title = self.data['title']
+            desc = self.data['description']
+            category_id = self.data['categoryId']
+            post_img = self.request.FILES['postImage']
+
             post = mm.Post.objects.get(PostID=post_id)
-            if 'title' in self.data:
-                post.Title = self.data['title']
-            if 'description' in self.data:
-                post.Description = self.data['description']
-            if 'categoryId' in self.data:
-                post.Category = mmd.SportCategory.objects.get(SportCategoryID=self.data['categoryId'])
-            if 'postImage' in self.data:
-                post.PostImage = self.data['postImage']
+
+            post.Category = mmd.SportCategory.objects.get(SportCategoryID=category_id)
+            post.Title = title
+            post.Description = desc
+            post.PostImage = post_img
             post.save()
             return message("Post updated successfully"), 200
+        
+        except KeyError as key:
+            return message(f'{key} is Missing'),404
         except ObjectDoesNotExist:
             return message("Post not found"), 404
         except Exception as e:
             print(e)
             return message("Update failed"), 500
 
-    def delete_post(self, post_id):
+    def delete_post(self):
         try:
+            post_id = self.data['postId']
             post = mm.Post.objects.get(PostID=post_id)
             post.delete()
             return message("Post deleted successfully"), 200
