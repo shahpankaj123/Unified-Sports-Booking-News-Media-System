@@ -131,10 +131,10 @@ class VenueApplication(models.Model):
         db_table = 'VenueApplication'
 
     STATUS_CHOICES = (
-        ('pending', 'Pending'),
+        ('Pending', 'Pending'),
         ('Under Review' ,'Under Review'),
-        ('approved', 'Approved'),
-        ('rejected', 'Rejected'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected'),
     )
 
     ID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -145,7 +145,7 @@ class VenueApplication(models.Model):
     PhoneNumber = models.CharField(max_length=15)
     Email = models.EmailField()
     PanNumber = models.CharField(max_length=50)
-    Status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='pending')
+    Status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='Pending')
     AdminRemark = models.TextField(blank=True, null=True)
     IsActive = models.BooleanField(default=True)
     CreatedAt = models.DateTimeField(auto_now_add=True)

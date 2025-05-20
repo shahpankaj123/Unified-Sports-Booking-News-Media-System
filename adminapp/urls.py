@@ -57,5 +57,8 @@ urlpatterns = [
     path('v1/DelPost',v.DelPostViews.as_view()),
 
     path('v1/GetVenueApplication',v.GetVenueApplicationViews.as_view()),
+    path('v1/GetVenueApplicationById',v.GetVenueApplicationByIdViews.as_view()),
+    path('v1/UpdateVenueApplication',v.UpdateVenueApplicationViews.as_view()),
+    
 
 ]
