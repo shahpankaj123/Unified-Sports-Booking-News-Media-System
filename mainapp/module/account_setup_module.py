@@ -92,7 +92,8 @@ class AccountSetupModule:
                         'userName' : user.UserName ,
                         'fullName' : user.FirstName + ' ' + user.LastName ,
                         'phoneNumber' : user.PhoneNumber,
-                        'userType': user.UserType.UserType
+                        'userType': user.UserType.UserType,
+                        'userId': user.UserID
                     }
                     user.LoginStatus = 'Login'
                     user.LoginTry = user.LoginTry + 1

@@ -26,7 +26,6 @@ def  __activate_email(recipient_email,activation_url):
     print('successfully send') 
     
 def send_reset_password_email(recipient_email, activation_url):
-
     try:
         thread = Thread(target=__reset_password ,args=(recipient_email,activation_url))
         thread.start()

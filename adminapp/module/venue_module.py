@@ -18,7 +18,6 @@ class VenueModule:
             owner_email = self.data['ownerEmail']
             name = self.data['name']
             address = self.data['address']
-            city = self.data['cityId']
             phoneNumber = self.data['phoneNumber']
             email = self.data['email']
             cityId = self.data['cityId']
@@ -31,9 +30,12 @@ class VenueModule:
 
             smd.Venue.objects.create(Owner = user ,Email = email ,PhoneNumber = phoneNumber,Name = name ,Address = address ,City = city ,IsActive = True)
             return message('Venue Created Sucessfully') ,200
-
+        
+        except KeyError as key:
+            return message(f'{key} is Missing'),400
         except Exception as e:
             print(e)
+            return message('Something Went Wrong') ,500
 
     def get_all_venue(self):
         try:
@@ -44,7 +46,7 @@ class VenueModule:
     def update_status_venue(self):
         try:
             is_active = self.data['isActive']
-            venue_id = self.data['VenueID']
+            venue_id = self.data['venueId']
 
             venue_obj = smd.Venue.objects.get(VenueID = venue_id)
             venue_obj.IsActive = is_active
@@ -61,8 +63,9 @@ class VenueModule:
         
 
 
-    def get_venue_details(request, venue_id):
+    def get_venue_details(self,request):
         try:
+            venue_id = self.data['venueId']
             venue = smd.Venue.objects.select_related('Owner', 'City').prefetch_related(
                 'venue_images',
                 'venue__courts_images'  # courts_images from Court

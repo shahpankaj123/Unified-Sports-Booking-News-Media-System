@@ -45,4 +45,17 @@ urlpatterns = [
 
     path('v1/DashboardData',v.DasboardDataView.as_view()),
 
+    path('v1/CreateVenue',v.CreateVenueViews.as_view()),
+    path('v1/GetVenue',v.GetVenueViews.as_view()),
+    path('v1/UpdateVenueStatus',v.UpdateVenueStatusViews.as_view()),
+    path('v1/GetVenueDetails',v.GetVenueDetailsViews.as_view()),
+
+    path('v1/CreatePost',v.CreatePostViews.as_view()),
+    path('v1/GetPost',v.GetPostViews.as_view()),
+    path('v1/UpdatePost',v.UpdatePostViews.as_view()),
+    path('v1/GetPostDetails',v.GetPostByIdViews.as_view()),
+    path('v1/DelPost',v.DelPostViews.as_view()),
+
+    path('v1/GetVenueApplication',v.GetVenueApplicationViews.as_view()),
+
 ]

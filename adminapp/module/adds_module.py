@@ -51,11 +51,6 @@ class PostModule:
                     "category": post.Category.SportCategory if post.Category else None,
                     "date": post.Date.strftime("%Y-%m-%d"),
                     "time": post.Time.strftime("%H:%M:%S"),
-                    "author": {
-                        "firstName": post.Author.FirstName if post.Author else None,
-                        "lastName": post.Author.LastName if post.Author else None,
-                        "email": post.Author.Email if post.Author else None,
-                    },
                     "postImage": self.request.build_absolute_uri(post.PostImage.url) if post.PostImage else None,
                 })
             return post_list, 200
@@ -74,11 +69,6 @@ class PostModule:
                 "category": post.Category.SportCategory if post.Category else None,
                 "date": post.Date.strftime("%Y-%m-%d"),
                 "time": post.Time.strftime("%H:%M:%S"),
-                "author": {
-                    "firstName": post.Author.FirstName if post.Author else None,
-                    "lastName": post.Author.LastName if post.Author else None,
-                    "email": post.Author.Email if post.Author else None,
-                },
                 "postImage": self.request.build_absolute_uri(post.PostImage.url) if post.PostImage else None,
             }
             return data, 200
@@ -94,14 +84,15 @@ class PostModule:
             title = self.data['title']
             desc = self.data['description']
             category_id = self.data['categoryId']
-            post_img = self.request.FILES['postImage']
+            post_img = self.request.FILES.get('postImage')
 
             post = mm.Post.objects.get(PostID=post_id)
 
             post.Category = mmd.SportCategory.objects.get(SportCategoryID=category_id)
             post.Title = title
             post.Description = desc
-            post.PostImage = post_img
+            if post_img is not None:
+                post.PostImage = post_img
             post.save()
             return message("Post updated successfully"), 200
         
