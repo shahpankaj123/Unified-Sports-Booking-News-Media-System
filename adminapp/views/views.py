@@ -9,6 +9,7 @@ from adminapp.module.dasboard_module import DashboardModule
 from adminapp.module.venue_module import VenueModule
 from adminapp.module.adds_module import PostModule
 from adminapp.module.venue_application_module import VenueApplicationModule
+from adminapp.module.user_details_module import UserDetailsModule
 
 class DasboardDataView(AdminUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
@@ -140,6 +141,36 @@ class UpdateVenueApplicationViews(AdminUserPermissionMixin ,APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                                                           
+            return Response(message('Something Went Wrong'),status=500)       
+
+class GetUserDetailsViews(AdminUserPermissionMixin ,APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = UserDetailsModule(data=data).get_user_details()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)   
+
+class UpdateUserDetailsViews(AdminUserPermissionMixin ,APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = UserDetailsModule(data=data).update_user_details()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)      
+
+class UploadUserProfileImageViews(AdminUserPermissionMixin ,APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = UserDetailsModule(data=data).upload_profile_img(request=request)
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                                                        
         
 

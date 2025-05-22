@@ -51,7 +51,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     UserType = models.ForeignKey(UserTypes, on_delete=models.CASCADE,db_column='UserType')
     FirstName = models.CharField(max_length=150)
     LastName = models.CharField(max_length=50, default='')
-    ProfileImage = models.CharField(max_length=300, default='')
+    ProfileImage = models.ImageField(upload_to='profile_img',null=True, blank=True)
     Email = models.EmailField(max_length=200, unique=True, editable=True)
     UserName = models.CharField(max_length=100, unique=True)
     PhoneNumber = models.CharField(max_length=15, null=True)

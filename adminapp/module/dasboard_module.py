@@ -2,6 +2,7 @@
 from mainapp import models as md
 
 from venue import models as smd
+from adds import models as amd
 
 from mainapp.selectors.common_functions import message
 
@@ -20,7 +21,9 @@ class DashboardModule:
             court_count = smd.Court.objects.all().count()
 
             venue_application_count = smd.VenueApplication.objects.all().count()
+            news_count = amd.Post.objects.all().count()
             booking_count = smd.Booking.objects.filter(Status__Status = 'Success').count()
+            reels_count = 0
 
             total_income =  smd.PaymentTransaction.objects.filter(PaymentStatus__Status = 'Success').count()
 
@@ -31,6 +34,8 @@ class DashboardModule:
                 'venue_count':venue_count,
                 'court_count':court_count,
                 'venue_application_count':venue_application_count,
+                'news_count': news_count,
+                'reels_count': reels_count,
                 'booking_count':booking_count,
                 'total_income':total_income
             }
