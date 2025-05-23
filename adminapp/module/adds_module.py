@@ -48,7 +48,7 @@ class PostModule:
                     "category": post.Category.SportCategory if post.Category else None,
                     "date": post.Date.strftime("%Y-%m-%d"),
                     "time": post.Time.strftime("%H:%M:%S"),
-                    "postImage": "http://127.0.0.1:8000/" + post.PostImage.url if post.PostImage else None,
+                    "postImage": "http://127.0.0.1:8000" + post.PostImage.url if post.PostImage else None,
                 })
             return post_list, 200
         except Exception as e:
@@ -66,7 +66,7 @@ class PostModule:
                 "category": post.Category.SportCategory if post.Category else None,
                 "date": post.Date.strftime("%Y-%m-%d"),
                 "time": post.Time.strftime("%H:%M:%S"),
-                "postImage": "http://127.0.0.1:8000/" + post.PostImage.url if post.PostImage else None,
+                "postImage": "http://127.0.0.1:8000" + post.PostImage.url if post.PostImage else None,
             }
             return data, 200
         except ObjectDoesNotExist:
