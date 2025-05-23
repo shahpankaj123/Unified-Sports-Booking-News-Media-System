@@ -147,7 +147,7 @@ class GetUserDetailsViews(AdminUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
-            res_data,res_status = UserDetailsModule(data=data).get_user_details()
+            res_data,res_status = UserDetailsModule(data=data ,request=request).get_user_details()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
@@ -157,7 +157,7 @@ class UpdateUserDetailsViews(AdminUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
-            res_data,res_status = UserDetailsModule(data=data).update_user_details()
+            res_data,res_status = UserDetailsModule(data=data,request=request).update_user_details()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
@@ -167,7 +167,7 @@ class UploadUserProfileImageViews(AdminUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
-            res_data,res_status = UserDetailsModule(data=data).upload_profile_img(request=request)
+            res_data,res_status = UserDetailsModule(data=data,request=request).upload_profile_img()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)

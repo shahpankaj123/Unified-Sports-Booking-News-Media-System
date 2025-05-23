@@ -6,13 +6,12 @@ from mainapp.selectors.common_functions import message
 
 class UserDetailsModule:
 
-    def __init__(self ,data):
+    def __init__(self ,data ,request):
         self.data = data
+        self.request = request
 
     def get_user_details(self):
         try:
-            user_id = self.data['userId']
-            
             user_data = md.Users.objects.values(
                 firstName=F('FirstName'),
                 lastName=F('LastName'),
@@ -24,7 +23,7 @@ class UserDetailsModule:
                 email=F('Email'),
                 userName=F('UserName'),
                 phoneNumber=F('PhoneNumber')
-            ).get(UserID=user_id)
+            ).get(Email=self.request.user)
 
             return user_data, 200
 
@@ -36,7 +35,6 @@ class UserDetailsModule:
         
     def update_user_details(self):
         try:
-            user_id = self.data['userId']
             first_name = self.data['firstName']
             last_name = self.data['lastName']
             usr_name = self.data['userName']
@@ -48,7 +46,7 @@ class UserDetailsModule:
             if md.Users.objects.filter(UserName = usr_name).exists():
                 return message('UserName Already Exists'),400
             
-            usr = md.Users.objects.get(UserID = user_id) 
+            usr = md.Users.objects.get(Email=self.request.user) 
             usr.FirstName = first_name
             usr.LastName = last_name
             usr.UserName = usr_name
@@ -63,12 +61,11 @@ class UserDetailsModule:
         except Exception as e:
             return message('Something Went Wrong'),500   
 
-    def upload_profile_img(self,request):
+    def upload_profile_img(self):
         try:
-            profile_img = request.FILES['profileImage']
-            user_id = self.data['userId']
+            profile_img = self.request.FILES['profileImage']
 
-            usr = md.Users.objects.get(UserID = user_id) 
+            usr = md.Users.objects.get(Email=self.request.user) 
             usr.ProfileImage = profile_img
             usr.save()
             return message('Profile Image Uploaded Successfully'),200

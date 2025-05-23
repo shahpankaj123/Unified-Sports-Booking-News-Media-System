@@ -25,6 +25,7 @@ urlpatterns = [
 
     path('web/api/v1/account/',include('mainapp.urls')),
     path('web/api/v1/adminapp/',include('adminapp.urls')),
+    path('web/api/v1/venue/',include('venue.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
