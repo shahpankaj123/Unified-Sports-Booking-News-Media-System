@@ -17,11 +17,10 @@ class PostModule:
             title = self.data['title']
             description = self.data['description']
             category_id = self.data['categoryId']
-            user_id = self.data['userId']
             post_image = self.request.FILES['postImage']
 
             category = mmd.SportCategory.objects.get(SportCategoryID=category_id)
-            author = mmd.Users.objects.get(UserID = user_id)
+            author = mmd.Users.objects.get(Email = self.request.user)
 
             mm.Post.objects.create(
                 Title=title,
@@ -39,9 +38,7 @@ class PostModule:
 
     def get_all_posts(self):
         try:
-            if is_none(self.data['userId']):
-                return message('UserId is Missing')
-            posts = mm.Post.objects.select_related('Author', 'Category').filter(Author__UserID = self.data['userId']).order_by('-Date', '-Time')
+            posts = mm.Post.objects.select_related('Author', 'Category').filter(Author__Email = self.request.user).order_by('-Date', '-Time')
             post_list = []
             for post in posts:
                 post_list.append({
@@ -51,7 +48,7 @@ class PostModule:
                     "category": post.Category.SportCategory if post.Category else None,
                     "date": post.Date.strftime("%Y-%m-%d"),
                     "time": post.Time.strftime("%H:%M:%S"),
-                    "postImage": self.request.build_absolute_uri(post.PostImage.url) if post.PostImage else None,
+                    "postImage": "http://127.0.0.1:8000/" + post.PostImage.url if post.PostImage else None,
                 })
             return post_list, 200
         except Exception as e:
@@ -69,7 +66,7 @@ class PostModule:
                 "category": post.Category.SportCategory if post.Category else None,
                 "date": post.Date.strftime("%Y-%m-%d"),
                 "time": post.Time.strftime("%H:%M:%S"),
-                "postImage": self.request.build_absolute_uri(post.PostImage.url) if post.PostImage else None,
+                "postImage": "http://127.0.0.1:8000/" + post.PostImage.url if post.PostImage else None,
             }
             return data, 200
         except ObjectDoesNotExist:
