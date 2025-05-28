@@ -11,8 +11,9 @@ from adminapp.module.user_details_module import UserDetailsModule
 from adminapp.module.adds_module import PostModule
 from venue.module.dashboard_module import DashboardModule
 from venue.module.venue_module import VenueModule
+from venue.module.court_module import CourtModule
 
-class GetUserDetailsViews(VenueUserPermissionMixin ,APIView):
+class GetUserDetailsViews(APIView):
 
     def get(self,request,*args,**kwargs):
         data = request.GET
@@ -23,7 +24,7 @@ class GetUserDetailsViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)   
 
-class UpdateUserDetailsViews(VenueUserPermissionMixin ,APIView):
+class UpdateUserDetailsViews(APIView):
 
     def post(self,request,*args,**kwargs):
         data = request.data
@@ -34,7 +35,7 @@ class UpdateUserDetailsViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)      
 
-class UploadUserProfileImageViews(VenueUserPermissionMixin ,APIView):
+class UploadUserProfileImageViews(APIView):
 
     def post(self,request,*args,**kwargs):
         data = request.data
@@ -47,7 +48,7 @@ class UploadUserProfileImageViews(VenueUserPermissionMixin ,APIView):
         
         
 # post Views
-class GetPostViews(VenueUserPermissionMixin ,APIView):
+class GetPostViews(APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -57,7 +58,7 @@ class GetPostViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
         
-class CreatePostViews(VenueUserPermissionMixin ,APIView):
+class CreatePostViews(APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -67,7 +68,7 @@ class CreatePostViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
 
-class GetPostDetailViews(VenueUserPermissionMixin ,APIView):
+class GetPostDetailViews(APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -77,7 +78,7 @@ class GetPostDetailViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
 
-class UpdatePostViews(VenueUserPermissionMixin ,APIView):   
+class UpdatePostViews(APIView):   
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -87,7 +88,7 @@ class UpdatePostViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
         
-class DeletePostViews(VenueUserPermissionMixin ,APIView):       
+class DeletePostViews(APIView):       
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -97,7 +98,7 @@ class DeletePostViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
         
-class GetDashboardViews(VenueUserPermissionMixin ,APIView):
+class GetDashboardViews(APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -107,7 +108,7 @@ class GetDashboardViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class GetVenueDetailsViews(VenueUserPermissionMixin ,APIView):
+class GetVenueDetailsViews(APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -117,7 +118,7 @@ class GetVenueDetailsViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
 
-class UpdateVenueDetailsViews(VenueUserPermissionMixin ,APIView):       
+class UpdateVenueDetailsViews(APIView):       
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -127,7 +128,7 @@ class UpdateVenueDetailsViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class UploadVenueImageViews(VenueUserPermissionMixin ,APIView):
+class UploadVenueImageViews(APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -135,5 +136,55 @@ class UploadVenueImageViews(VenueUserPermissionMixin ,APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                             
+            return Response(message('Something Went Wrong'),status=500)  
+
+class GetCourtViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = CourtModule(data=data ,request=request).get_court_data()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500) 
+
+class GetCourtByIdViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = CourtModule(data=data ,request=request).get_court_data_by_id()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)    
+
+class CreateCourtViews(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = CourtModule(data=data ,request=request).create_court_data()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)
+
+class UpdateCourtViews(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = CourtModule(data=data ,request=request).update_court_data()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)
+        
+class UploadCourtImageViews(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = CourtModule(data=data ,request=request).upload_court_image()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                              
                                

@@ -16,7 +16,13 @@ class VenueModule:
             venue_obj = vmd.Venue.objects.get(Owner__Email = self.request.user)
             venue_img = venue_obj.venue_images.all()
             data = vmd.Venue.objects.values(venueId = F('VenueID') , venueName = F('Name'),address = F('Address'),cityName = F('City__CityName'), latitude =F('Latitude'), longitude =F('Longitude'),phoneNumber = F('PhoneNumber'),email = F('Email'),desc = F('Description'),openingTime = F('OpeningTime'),closingTime =F('ClosingTime'),isActive = F('IsActive')).get(Owner__Email = self.request.user)
-            data['venueImage'] = ["http://127.0.0.1:8000/media/" + x['Image'] for x in  venue_img.values('Image')]
+            data['venueImage'] = [
+            {
+                'id': x['ImageID'],
+                'image': f"http://127.0.0.1:8000/media/{x['Image']}"
+            }
+            for x in venue_img.values('ImageID', 'Image')
+        ]
             return data , 200
         except Exception as e:
             print(e)
@@ -75,3 +81,19 @@ class VenueModule:
         except Exception as e:
             print(e)
             return message('Something Went Wrong') ,500     
+        
+    def remove_venue_image(self):
+        try:
+            image_id = self.data['imageId']
+            venue = vmd.Venue.objects.get(Owner__Email = self.request.user)
+            vmd.VenueImages.objects.get(Venue = venue , ImageID = image_id).delete()
+            return message('Venue Image Deleted Successfully'), 200
+        except vmd.Venue.DoesNotExist:
+            return message('Venue Not Found'), 404
+        except vmd.VenueImages.DoesNotExist:
+            return message('Image Not Found'), 404
+        except KeyError as k:
+            return message(f'{k} is Missing'), 400
+        except Exception as e:
+            print(e)
+            return message('Something Went Wrong') ,500    

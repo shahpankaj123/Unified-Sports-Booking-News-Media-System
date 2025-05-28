@@ -35,9 +35,9 @@ class Court(models.Model):
         db_table = 'Court'
 
     SURFACE_TYPES = (
-        ('artificial_grass', 'Artificial Grass'),
-        ('concrete', 'Concrete'),
-        ('wood', 'Wood'),
+        ('Artificial Grass', 'Artificial Grass'),
+        ('Concrete', 'Concrete'),
+        ('Wood', 'Wood'),
     )
 
     CourtID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
