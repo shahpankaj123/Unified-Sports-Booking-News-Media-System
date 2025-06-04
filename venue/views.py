@@ -12,6 +12,7 @@ from adminapp.module.adds_module import PostModule
 from venue.module.dashboard_module import DashboardModule
 from venue.module.venue_module import VenueModule
 from venue.module.court_module import CourtModule
+from venue.module.ticket_module import TicketModule
 
 class GetUserDetailsViews(APIView):
 
@@ -186,5 +187,45 @@ class UploadCourtImageViews(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                              
+            return Response(message('Something Went Wrong'),status=500) 
+
+class CreateTicketViews(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = TicketModule(data=data).create_ticket()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)  
+
+class GetTicketViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = TicketModule(data=data).get_all_ticket()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)  
+
+class GetTicketByIdViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = TicketModule(data=data).get_ticket_by_id()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500) 
+
+class UpdateTicketViews(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = TicketModule(data=data).update_ticket()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                                                  
                                

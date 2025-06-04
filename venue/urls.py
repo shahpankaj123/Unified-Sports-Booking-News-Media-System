@@ -25,4 +25,9 @@ urlpatterns = [
     path('UpdateCourt',vv.UpdateCourtViews.as_view()),
     path('UploadCourtImage',vv.UploadCourtImageViews.as_view()),
 
+    path('CreateTicket',vv.CreateTicketViews.as_view()),
+    path('GetTicket',vv.GetTicketViews.as_view()),
+    path('GetTicketById',vv.GetTicketByIdViews.as_view()),
+    path('UpdateTicket',vv.UpdateTicketViews.as_view()),
+
 ]
