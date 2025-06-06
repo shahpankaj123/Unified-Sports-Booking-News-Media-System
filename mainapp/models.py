@@ -148,6 +148,21 @@ class SportCategory(models.Model):
 
     def __str__(self):
         return self.SportCategory
+    
+class Notification(models.Model):
+
+    class Meta:
+        db_table = "Notification"
+
+    NotificationID = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    Message = models.TextField()
+    User = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True, db_column='UserID')
+    Date = models.DateField()
+    CreatedAt = models.DateTimeField(auto_now_add=True)
+    UpdatedAt = models.DateTimeField(auto_now=True) 
+
+
+
 
             
 

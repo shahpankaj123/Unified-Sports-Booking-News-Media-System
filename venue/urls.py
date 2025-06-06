@@ -30,4 +30,9 @@ urlpatterns = [
     path('GetTicketById',vv.GetTicketByIdViews.as_view()),
     path('UpdateTicket',vv.UpdateTicketViews.as_view()),
 
+    path('GetBooking',vv.GetBookingViews.as_view()),
+    path('GetBookingById',vv.GetBookingByIdViews.as_view()),
+    path('UpdateBookingStatus',vv.UpdateBookingStatusViews.as_view()),
+
+    path('GetNotification',vv.GetNotificationViews.as_view()),
 ]

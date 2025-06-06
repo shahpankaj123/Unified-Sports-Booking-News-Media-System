@@ -13,6 +13,8 @@ from venue.module.dashboard_module import DashboardModule
 from venue.module.venue_module import VenueModule
 from venue.module.court_module import CourtModule
 from venue.module.ticket_module import TicketModule
+from venue.module.Booking_module import BookingModule
+from venue.module.notification_module import NotificationModule
 
 class GetUserDetailsViews(APIView):
 
@@ -227,5 +229,46 @@ class UpdateTicketViews(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                                                                  
+            return Response(message('Something Went Wrong'),status=500) 
+
+class GetBookingViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = BookingModule(data=data).get_all_booking()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)    
+
+
+class GetBookingByIdViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = BookingModule(data=data).get_booking_by_id()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)      
+
+class UpdateBookingStatusViews(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = BookingModule(data=data).update_booking_details()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)  
+
+class GetNotificationViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = NotificationModule(data=data,request=request).get_all_notification()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                                                                         
                                
