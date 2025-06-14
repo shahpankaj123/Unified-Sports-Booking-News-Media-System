@@ -11,6 +11,8 @@ from adminapp.module.adds_module import PostModule
 from adminapp.module.venue_application_module import VenueApplicationModule
 from adminapp.module.user_details_module import UserDetailsModule
 
+from venue.module.notification_module import NotificationModule
+
 class DasboardDataView(AdminUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
@@ -171,6 +173,26 @@ class UploadUserProfileImageViews(AdminUserPermissionMixin ,APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                                                                        
+            return Response(message('Something Went Wrong'),status=500) 
+
+class GetNotificationViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = NotificationModule(data=data,request=request).get_all_notification()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)   
+
+class GetNotificationByIdViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = NotificationModule(data=data,request=request).get_notification_by_id()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                                                                 
         
 

@@ -80,7 +80,7 @@ class Status(models.Model):
     Status = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.Status
+        return self.Status + ' - ' + str(self.StatusID)
 
 class City(models.Model):
     class Meta:
@@ -158,6 +158,7 @@ class Notification(models.Model):
     Message = models.TextField()
     User = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True, db_column='UserID')
     Date = models.DateField()
+    IsRead = models.BooleanField(default=False)
     CreatedAt = models.DateTimeField(auto_now_add=True)
     UpdatedAt = models.DateTimeField(auto_now=True) 
 

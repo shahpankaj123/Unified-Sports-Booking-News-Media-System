@@ -63,4 +63,7 @@ urlpatterns = [
     path('GetUserDetails',v.GetUserDetailsViews.as_view()),
     path('UpdateUserDetails',v.UpdateUserDetailsViews.as_view()),
     path('UploadProfileImage',v.UploadUserProfileImageViews.as_view()),
+
+    path('GetNotification',v.GetNotificationViews.as_view()),
+    path('GetNotificationById',v.GetNotificationByIdViews.as_view()),
 ]

@@ -94,6 +94,9 @@ class Availability(models.Model):
     SpecialRate = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     CreatedAt = models.DateTimeField(auto_now_add=True)
     UpdatedAt = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.Court.Name + '-' + str(self.Date) + '-' + str(self.StartTime) + '-' + str(self.EndTime)
     
     
 class Booking(models.Model):
@@ -106,7 +109,7 @@ class Booking(models.Model):
     Availability = models.ForeignKey(Availability, on_delete=models.SET_NULL, null=True)
     Status = models.ForeignKey(md.Status, on_delete=models.SET_NULL, null=True)
     PaymentMethod = models.ForeignKey(md.PaymentType, on_delete=models.SET_NULL, null=True)
-    TotalPrice = models.DecimalField(max_digits=8, decimal_places=2)
+    TotalPrice = models.DecimalField(max_digits=8, decimal_places=2,null=True)
     Notes = models.TextField(blank=True) 
     CreatedAt = models.DateTimeField(auto_now_add=True)
     UpdatedAt = models.DateTimeField(auto_now=True)
@@ -117,7 +120,7 @@ class PaymentTransaction(models.Model):
         db_table = "PaymentTransaction" 
 
     PaymentTransactionID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
-    Booking = models.ForeignKey(Booking, on_delete=models.SET_NULL, related_name='transactions',null=True)
+    Bookings = models.ManyToManyField(Booking, related_name='transactions')
     TransactionID = models.CharField(max_length=100,unique=True)
     Amount = models.DecimalField(max_digits=8, decimal_places=2)
     PaymentStatus = models.ForeignKey(md.Status, on_delete=models.SET_NULL, null=True)
@@ -179,6 +182,36 @@ class OnlinePaymentKhaltiSecretKey(models.Model):
     SecretKey = models.CharField(max_length=250) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True) 
+
+class Event(models.Model):
+
+    class Meta:
+        db_table = "Event"
+
+    EventId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
+    Court = models.ForeignKey(Court, on_delete=models.SET_NULL,null=True)   
+    MaximunSeat = models.PositiveIntegerField()
+    Date = models.DateField()
+    Time = models.TimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True) 
+
+class EventRegisteredRecord(models.Model):
+
+    class Meta:
+        db_table = "EventRegisteredRecord"  
+
+    Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
+    Event = models.ForeignKey(Event, on_delete=models.SET_NULL,null=True) 
+    User = models.ForeignKey(md.Users,on_delete=models.SET_NULL,null= True) 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)    
+
+
+
+
+
+
 
 
     

@@ -270,5 +270,15 @@ class GetNotificationViews(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                                                                                         
+            return Response(message('Something Went Wrong'),status=500)   
+
+class GetNotificationByIdViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = NotificationModule(data=data,request=request).get_notification_by_id()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                                                                               
                                

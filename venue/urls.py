@@ -35,4 +35,5 @@ urlpatterns = [
     path('UpdateBookingStatus',vv.UpdateBookingStatusViews.as_view()),
 
     path('GetNotification',vv.GetNotificationViews.as_view()),
+    path('GetNotificationById',vv.GetNotificationByIdViews.as_view()),
 ]

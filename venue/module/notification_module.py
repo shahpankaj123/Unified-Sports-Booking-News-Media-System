@@ -3,6 +3,8 @@ from mainapp import models as md
 from django.utils import timezone
 from datetime import timedelta
 
+from mainapp.selectors.common_functions import message
+
 class NotificationModule:
     def __init__(self , data ,request):
         self.data = data
@@ -10,21 +12,28 @@ class NotificationModule:
 
     def get_all_notification(self):
         try:
-            today = timezone.now().date()
-            three_days_ago = today - timedelta(days=3)
-
-            queryset = md.Notification.objects.filter(
-                User=self.request.user,
-                Date__range=(three_days_ago, today)
-            ).values()
-
-            data = list(queryset) 
+            queryset = md.Notification.objects.filter(User__Email=self.request.user).values().order_by('-CreatedAt')
+            count = md.Notification.objects.filter(User__Email=self.request.user,IsRead = False).count()
             response = {
-                'count': len(data),
-                'notifications': data
+                'count': count,
+                'notifications': queryset
             }
             return response, 200
 
         except Exception as e:
             print(e)
-            return {'message': 'Something went wrong'}, 500    
+            return {'message': 'Something went wrong'}, 500  
+
+    def get_notification_by_id(self):
+        try:
+            notification_id = self.data['notificationId'] 
+            query  = md.Notification.objects.get(NotificationID = notification_id)
+            query.IsRead = True
+            query.save()
+            return md.Notification.objects.values().get(NotificationID = notification_id) ,200
+        
+        except md.Notification.DoesNotExist:
+            return message('Data Not Found') ,400
+        except KeyError as k:
+            return message(f'{k} is Missing'),404
+            
