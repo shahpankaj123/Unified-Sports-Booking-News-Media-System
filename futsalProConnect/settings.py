@@ -97,11 +97,11 @@ WSGI_APPLICATION = 'futsalProConnect.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'footsalPro_db',
-        'USER': 'root',
-        'PASSWORD': config('db_password'),
-        'HOST':'localhost',
-        'PORT':'3306',
+        'NAME': config('db_name'),
+        'USER': config('db_user'),
+        'PASSWORD': config('db_pass'),
+        'HOST': config('db_host'),
+        'PORT':config('db_port'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },

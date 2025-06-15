@@ -30,7 +30,7 @@ class UserManager(BaseUserManager):
 
         if other_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
-        return self.create_user(username = UserName, email = Email, password = password, first_name = FirstName, last_name= LastName, phone_number=PhoneNumber, user_type = UserTypes.objects.get(UserType = 'Admin'), **other_fields )
+        return self.create_user(username = UserName, email = Email, password = password, first_name = FirstName, last_name= LastName, phone_number=PhoneNumber, user_type = UserTypes.objects.get(UserType = 'SuperUsers'), **other_fields )
 
     def create_user(self, username, email, password, first_name, last_name, user_type,phone_number, **other_fields):
         if not email:

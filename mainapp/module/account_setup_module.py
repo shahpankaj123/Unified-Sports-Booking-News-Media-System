@@ -12,6 +12,7 @@ from django.utils.encoding import force_bytes, force_str
 from mainapp.services.email_service import send_reset_password_email ,send_activation_email
 
 from django.http import HttpResponseRedirect
+from mainapp.selectors import selector as sc
 
 import random
 from django.utils import timezone 
@@ -81,8 +82,9 @@ class AccountSetupModule:
             email = self.data['email']
             password = self.data['password']
 
-            user = md.Users.objects.get(Email = email)    
+            user = md.Users.objects.get(Email = email) 
             if authenticate(request, username=email, password=password):
+                print(user.IsActive)
                 if user.IsActive:
                     login(request,user)
                     token, created = Token.objects.get_or_create(user=user)  
