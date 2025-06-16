@@ -13,7 +13,8 @@ class VenueModule:
 
     def get_venue_data(self):
         try:
-            venue_obj = vmd.Venue.objects.get(Owner__Email = self.request.user)
+            user_id = self.data['userId']
+            venue_obj = vmd.Venue.objects.get(Owner__UserID = user_id)
             venue_img = venue_obj.venue_images.all()
             data = vmd.Venue.objects.values(venueId = F('VenueID') , venueName = F('Name'),address = F('Address'),cityName = F('City__CityName'), latitude =F('Latitude'), longitude =F('Longitude'),phoneNumber = F('PhoneNumber'),email = F('Email'),desc = F('Description'),openingTime = F('OpeningTime'),closingTime =F('ClosingTime'),isActive = F('IsActive')).get(Owner__Email = self.request.user)
             data['venueImage'] = [
@@ -24,12 +25,15 @@ class VenueModule:
             for x in venue_img.values('ImageID', 'Image')
         ]
             return data , 200
+        except vmd.Venue.DoesNotExist:
+            return [] ,200
         except Exception as e:
             print(e)
             return message('Something Went Wrong') ,500  
 
     def update_venue_data(self):
         try:
+            user_id = self.data['userId']
             venue_name  = self.data['venueName']
             address = self.data['address']
             city_id = self.data['cityId']
@@ -42,7 +46,7 @@ class VenueModule:
             closing_time = self.data['closingTime']
             is_active = self.data['isActive']
 
-            venue = vmd.Venue.objects.get(Owner__Email = self.request.user)
+            venue = vmd.Venue.objects.get(Owner__UserID = user_id)
 
             venue.Name = venue_name
             venue.Address = address
@@ -70,8 +74,9 @@ class VenueModule:
 
     def upload_venue_image(self):   
         try:
+            user_id = self.data['userId']
             image = self.request.FILES['image']
-            venue = vmd.Venue.objects.get(Owner__Email = self.request.user)
+            venue = vmd.Venue.objects.get(Owner__UserID = user_id)
             vmd.VenueImages.objects.create(Venue = venue , Image = image)
             return message('Venue Image Uploaded Successfully'), 200
         except vmd.Venue.DoesNotExist:
@@ -84,8 +89,9 @@ class VenueModule:
         
     def remove_venue_image(self):
         try:
+            user_id = self.data['userId']
             image_id = self.data['imageId']
-            venue = vmd.Venue.objects.get(Owner__Email = self.request.user)
+            venue = vmd.Venue.objects.get(Owner__UserID = user_id)
             vmd.VenueImages.objects.get(Venue = venue , ImageID = image_id).delete()
             return message('Venue Image Deleted Successfully'), 200
         except vmd.Venue.DoesNotExist:
