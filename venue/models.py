@@ -190,6 +190,7 @@ class Event(models.Model):
 
     EventId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     Court = models.ForeignKey(Court, on_delete=models.SET_NULL,null=True)   
+    EventTitle = models.CharField(max_length=255,null=True)
     MaximunSeat = models.PositiveIntegerField()
     Date = models.DateField()
     Time = models.TimeField()

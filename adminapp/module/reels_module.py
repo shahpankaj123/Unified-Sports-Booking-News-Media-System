@@ -42,7 +42,7 @@ class ReelModule:
             post_list = []
             for post in posts:
                 post_list.append({
-                    "postID": str(post.ReelID),
+                    "reelId": str(post.ReelID),
                     "title": post.Title,
                     "description": post.Description,
                     "category": post.Category.SportCategory if post.Category else None,

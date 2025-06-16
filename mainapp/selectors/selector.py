@@ -1,4 +1,5 @@
 from mainapp import models as md
+from venue import models as vmd
 
 from django.core.cache import cache
 
@@ -57,3 +58,17 @@ def get_user_type_from_id(user_type_id :str):
           return usr_type
     except md.UserTypes.DoesNotExist:
         return None   
+    
+def get_court_from_id(court_id :str):
+    try:
+        cache_key = f'court_{court_id}'
+        if cache.get(cache_key):
+            print("cached data fetch")
+            return cache.get(cache_key)
+        else:
+          court = vmd.Court.objects.get(CourtID = court_id)
+          print("db data fetch")
+          cache.set(cache_key, court, timeout=60 * 60)
+          return court
+    except vmd.Court.DoesNotExist:
+        return None     

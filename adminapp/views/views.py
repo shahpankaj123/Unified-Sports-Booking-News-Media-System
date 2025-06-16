@@ -8,6 +8,7 @@ from mainapp.mixins import AdminUserPermissionMixin
 from adminapp.module.dasboard_module import DashboardModule
 from adminapp.module.venue_module import VenueModule
 from adminapp.module.adds_module import PostModule
+from adminapp.module.reels_module import ReelModule
 from adminapp.module.venue_application_module import VenueApplicationModule
 from adminapp.module.user_details_module import UserDetailsModule
 
@@ -114,6 +115,56 @@ class DelPostViews(AdminUserPermissionMixin ,APIView):
         except Exception as e:
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
+        
+class CreateReelViews(AdminUserPermissionMixin ,APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = ReelModule(data=data ,request=request).create_post()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500) 
+
+class GetReelViews(AdminUserPermissionMixin ,APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = ReelModule(data=data ,request=request).get_all_posts()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)
+
+class GetReelByIdViews(AdminUserPermissionMixin ,APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = ReelModule(data=data ,request=request).get_post_detail()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)
+
+class UpdateReelViews(AdminUserPermissionMixin ,APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = ReelModule(data=data ,request=request).update_post()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500) 
+
+class DelReelViews(AdminUserPermissionMixin ,APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = ReelModule(data=data ,request=request).delete_post()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)         
 
 class GetVenueApplicationViews(AdminUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):

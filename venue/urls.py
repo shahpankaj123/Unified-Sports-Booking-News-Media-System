@@ -14,6 +14,12 @@ urlpatterns = [
     path('DeletePost',vv.DeletePostViews.as_view()),
     path('GetPostDetails',vv.GetPostDetailViews.as_view()),
 
+    path('CreateReel',vv.CreateReelViews.as_view()),
+    path('GetReel',vv.GetReelViews.as_view()),
+    path('UpdateReel',vv.UpdateReelViews.as_view()),
+    path('GetReelDetails',vv.GetReelByIdViews.as_view()),
+    path('DelReel',vv.DelReelViews.as_view()),
+
     path('GetDashboardData',vv.GetDashboardViews.as_view()),
     path('GetVenueDetails',vv.GetVenueDetailsViews.as_view()),
     path('UpdateVenueDetails',vv.UpdateVenueDetailsViews.as_view()),

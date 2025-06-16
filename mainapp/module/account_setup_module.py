@@ -45,14 +45,15 @@ class AccountSetupModule:
                 return message('UserName Already Exists') ,400
             
             user = md.Users(FirstName = first_name , LastName = last_name , UserName = user_name ,Email = email ,PhoneNumber = phone_number , IsActive = False , UserType = md.UserTypes.objects.get(UserType = 'NormalUsers'))
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            token = default_token_generator.make_token(user)
-            activation_url = 'http://127.0.0.1:8000/web/api/v1/account/user/activate/'+ uid + '/' + token
-            print(activation_url)
-            send_activation_email(user.Email, activation_url)
+            # uid = urlsafe_base64_encode(force_bytes(user.pk))
+            # token = default_token_generator.make_token(user)
+            # activation_url = 'http://127.0.0.1:8000/web/api/v1/account/user/activate/'+ uid + '/' + token
+            # print(activation_url)
+            # send_activation_email(user.Email, activation_url)
             user.set_password(password)
+            user.IsActive = True
             user.save()
-            return message('Account Created Successfully.Please Check Mail for Activating Account !') ,201
+            return message('Account Created Successfully') ,201
         
         except KeyError as key:
             return message(f'{key} is Missing') , 404

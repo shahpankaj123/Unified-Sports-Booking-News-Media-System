@@ -56,6 +56,12 @@ urlpatterns = [
     path('GetPostDetails',v.GetPostByIdViews.as_view()),
     path('DelPost',v.DelPostViews.as_view()),
 
+    path('CreateReel',v.CreateReelViews.as_view()),
+    path('GetReel',v.GetReelViews.as_view()),
+    path('UpdateReel',v.UpdateReelViews.as_view()),
+    path('GetReelDetails',v.GetReelByIdViews.as_view()),
+    path('DelReel',v.DelReelViews.as_view()),
+
     path('GetVenueApplication',v.GetVenueApplicationViews.as_view()),
     path('GetVenueApplicationById',v.GetVenueApplicationByIdViews.as_view()),
     path('UpdateVenueApplication',v.UpdateVenueApplicationViews.as_view()),
