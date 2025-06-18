@@ -13,13 +13,13 @@ class CourtModule:
     def get_court_data(self):
         try:
             court_obj = vmd.Court.objects.filter(Venue__Owner__Email = self.request.user)
-            data = []
+            final_data = []
             for court in court_obj:
                 court_img = court.courts_images.all()
-                data = vmd.Court.objects.values(courtId = F('CourtID') ,courtName = F('Name'),courtType = F('CourtType'),courtCategory = F('SportCategory__SportCategory'),hourlyRate = F('HourlyRate'),isActive = F('IsActive')).get(CourtID = court)
+                data = vmd.Court.objects.values(courtId = F('CourtID') ,courtName = F('Name'),courtType = F('SurfaceType'),courtCategory = F('SportCategory__SportCategory'),hourlyRate = F('HourlyRate'),isActive = F('IsActive')).get(CourtID = court.CourtID)
                 data['courtImage'] = ["http://127.0.0.1:8000/media/" + x['Image'] for x in  court_img.values('Image')]
-                data.append(data)
-            return data , 200
+                final_data.append(data)
+            return final_data , 200
         except Exception as e:
             print(e)
             return message('Something Went Wrong') ,500 
@@ -29,7 +29,7 @@ class CourtModule:
             court_id = self.data['courtId']
             court = vmd.Court.objects.get(CourtID = court_id)
             court_img = court.courts_images.all()
-            data = vmd.Court.objects.values(courtId = F('CourtID') ,courtName = F('Name'),courtType = F('CourtType'),courtCategory = F('SportCategory__SportCategory'),hourlyRate = F('HourlyRate'),isActive = F('IsActive')).get(CourtID = court)
+            data = vmd.Court.objects.values(courtId = F('CourtID') ,courtName = F('Name'),courtType = F('SurfaceType'),courtCategory = F('SportCategory__SportCategory'),hourlyRate = F('HourlyRate'),isActive = F('IsActive')).get(CourtID = court.CourtID)
             data['courtImage'] = ["http://127.0.0.1:8000/media/" + x['Image'] for x in  court_img.values('Image')]
             return data , 200
         except vmd.Court.DoesNotExist:
