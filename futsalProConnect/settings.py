@@ -46,14 +46,15 @@ INTERNAL_APPS = [
     'mainapp',
     'venue',
     'adminapp',
-    'adds'
+    'adds',
+    'api',
 ]
 
 EXTERNAL_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders', 
-   'drf_yasg',
+    'drf_yasg',
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + INTERNAL_APPS + EXTERNAL_APPS
@@ -129,7 +130,7 @@ CORS_ALLOW_HEADERS = (
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": config('redis_url'),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
