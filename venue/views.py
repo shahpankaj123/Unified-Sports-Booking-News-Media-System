@@ -16,6 +16,7 @@ from venue.module.court_module import CourtModule
 from venue.module.ticket_module import TicketModule
 from venue.module.Booking_module import BookingModule
 from venue.module.notification_module import NotificationModule
+from venue.module.event_module import EventModule
 
 class GetUserDetailsViews(APIView):
 
@@ -331,5 +332,65 @@ class GetNotificationByIdViews(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                                                                                               
+            return Response(message('Something Went Wrong'),status=500) 
+
+class CreateEventViews(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = EventModule(data=data).create_events()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)  
+
+class GetEventViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = EventModule(data=data).get_all_event()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)  
+
+class GetEventByIdViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = EventModule(data=data).get_event_by_id()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500) 
+
+class UpdateEventViews(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = EventModule(data=data).update_event()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)  
+
+class DeleteEventViews(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = EventModule(data=data).del_event()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)  
+
+class GetRegisteredEventsUsers(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = EventModule(data=data).get_all_user_by_event()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                                                                                                      
                                

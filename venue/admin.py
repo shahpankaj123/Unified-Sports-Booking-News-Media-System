@@ -13,3 +13,6 @@ admin.site.register(vmd.PaymentTransaction)
 
 admin.site.register(vmd.VenueApplication)
 admin.site.register(vmd.VenueApplicationDocument)
+
+admin.site.register(vmd.Event)
+admin.site.register(vmd.EventRegisteredRecord)

@@ -42,4 +42,12 @@ urlpatterns = [
 
     path('GetNotification',vv.GetNotificationViews.as_view()),
     path('GetNotificationById',vv.GetNotificationByIdViews.as_view()),
+
+    path('CreateEvent',vv.CreateEventViews.as_view()),
+    path('GetEvent',vv.GetEventViews.as_view()),
+    path('GetEventById',vv.GetEventByIdViews.as_view()),
+    path('UpdateEvent',vv.UpdateEventViews.as_view()),
+    path('DelEvent',vv.DeleteEventViews.as_view()),
+
+    path('GetRegisteredEventsUsers',vv.GetRegisteredEventsUsers.as_view()),
 ]

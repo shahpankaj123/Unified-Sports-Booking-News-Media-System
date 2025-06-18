@@ -25,15 +25,17 @@ class EventModule:
         except KeyError as k:
             return message(f'{k} is Missing') ,404  
         except Exception as e:
+            print(e)
             return message('Internal Server Error') ,500  
 
     def get_all_event(self):
         try:
             court_id = self.data['courtId'] 
-            return vmd.Event.objects.filter(Court__CourtID = court_id).values(eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).order_by('-CreatedAt') ,200
+            return vmd.Event.objects.filter(Court__CourtID = court_id).values(eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).order_by('-created_at') ,200
         except KeyError as k:
             return message(f'{k} is Missing') ,404  
         except Exception as e:
+            print(e)
             return message('Internal Server Error') ,500    
 
     def get_event_by_id(self):
@@ -42,6 +44,8 @@ class EventModule:
             return vmd.Event.objects.values(eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).get(EventId = event_id) ,200
         except KeyError as k:
             return message(f'{k} is Missing') ,404  
+        except vmd.Event.DoesNotExist:
+            return message('Data Not Found') ,400
         except Exception as e:
             return message('Internal Server Error') ,500  
 
@@ -60,7 +64,8 @@ class EventModule:
             event.EventTitle = title
             event.save()
             return message('Event Updated Successfully') ,200
-
+        except vmd.Event.DoesNotExist:
+            return message('Data Not Found') ,400
         except KeyError as k:
             return message(f'{k} is Missing') ,404  
         except Exception as e:
@@ -71,6 +76,8 @@ class EventModule:
             event_id = self.data['eventId']
             vmd.Event.objects.get(EventId = event_id).delete()
             return message('Event Deleted Successfully') ,200
+        except vmd.Event.DoesNotExist:
+            return message('Data Not Found') ,400
         except KeyError as k:
             return message(f'{k} is Missing') ,404  
         except Exception as e:
@@ -79,10 +86,11 @@ class EventModule:
     def get_all_user_by_event(self):
         try:
             event_id = self.data['eventId']
-            return vmd.EventRegisteredRecord.objects.filter(Event__EventId = event_id).values(firstName = F('User__FirstName') ,lastName =F('User__LastName'),email = F('User__Email')).order_by('-CreatedAt') ,200
+            return vmd.EventRegisteredRecord.objects.filter(Event__EventId = event_id).values(firstName = F('User__FirstName') ,lastName =F('User__LastName'),email = F('User__Email')).order_by('-created_at') ,200
         except KeyError as k:
             return message(f'{k} is Missing') ,404  
         except Exception as e:
+            print(e)
             return message('Internal Server Error') ,500 
 
 
