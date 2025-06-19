@@ -6,6 +6,8 @@ from mainapp.selectors.common_functions import message
 
 from api.module.media_module import SocialMediaModule
 
+from api.module.venue_module import VenueModule
+
 class GetPost(APIView):
 
     def get(self, request, *args, **kwargs):
@@ -14,7 +16,7 @@ class GetPost(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return message('Something Went Wrong') ,500
+            return Response(message('Something Went Wrong') ,500 )  
         
 class GetPostById(APIView):
     
@@ -25,7 +27,7 @@ class GetPostById(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return message('Something Went Wrong') ,500  
+            return Response(message('Something Went Wrong') ,500 )   
 
 class GetReel(APIView):
 
@@ -35,7 +37,7 @@ class GetReel(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return message('Something Went Wrong') ,500
+            return Response(message('Something Went Wrong') ,500 )  
         
 class GetReelById(APIView):
     def get(self, request, *args, **kwargs):
@@ -45,5 +47,49 @@ class GetReelById(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return message('Something Went Wrong') ,500               
+            return Response(message('Something Went Wrong') ,500 )  
+
+class GetVenue(APIView):
+
+    def get(self, request, *args, **kwargs):
+        data = request.GET
+        try:
+            res_data ,res_status = VenueModule(data= data).get_all_venue()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong') ,500 )
+        
+class GetVenueById(APIView):
+
+    def get(self, request, *args, **kwargs):
+        data = request.GET
+        try:
+            res_data ,res_status = VenueModule(data= data).get_venue_details()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong') ,500 )        
+
+class GetCourt(APIView):
+
+    def get(self, request, *args, **kwargs):
+        data = request.GET
+        try:
+            res_data ,res_status = VenueModule(data= data).get_all_courts()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong') ,500 )  
+
+class GetCourtById(APIView):
+
+    def get(self, request, *args, **kwargs):
+        data = request.GET
+        try:
+            res_data ,res_status = VenueModule(data= data).court_details()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong') ,500 )                                   
 

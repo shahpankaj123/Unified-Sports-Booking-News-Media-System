@@ -8,4 +8,10 @@ urlpatterns = [
 
     path('GetReel', v.GetReel.as_view()),
     path('GetReelById', v.GetReelById.as_view()),
+
+    path('GetVenue',v.GetVenue.as_view()),
+    path('GetVenueById',v.GetVenueById.as_view()),
+
+    path('GetCourt',v.GetCourt.as_view()),
+    path('GetCourtById',v.GetCourtById.as_view()),
 ]
