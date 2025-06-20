@@ -338,7 +338,7 @@ class CreateEventViews(APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
-            res_data,res_status = EventModule(data=data).create_events()
+            res_data,res_status = EventModule(data=data).create_events(request=request)
             return Response(res_data,res_status)
         except Exception as e:
             print(e)

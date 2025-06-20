@@ -5,8 +5,11 @@ from mainapp.selectors.common_functions import message
 
 
 from api.module.media_module import SocialMediaModule
-
 from api.module.venue_module import VenueModule
+
+from venue.module.ticket_module import TicketModule
+from venue.module.event_module import EventModule
+
 
 class GetPost(APIView):
 
@@ -91,5 +94,45 @@ class GetCourtById(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong') ,500 )                                   
+            return Response(message('Something Went Wrong') ,500 )   
+
+class GetTicketViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = TicketModule(data=data).get_all_ticket()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)  
+
+class GetTicketByIdViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = TicketModule(data=data).get_ticket_by_id()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)  
+
+class GetEventViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = EventModule(data=data).all_events()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500) 
+
+class GetEventByIdViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = EventModule(data=data).get_event_by_id()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                          
 

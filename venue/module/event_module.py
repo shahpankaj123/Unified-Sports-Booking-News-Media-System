@@ -2,24 +2,26 @@ from mainapp.selectors.common_functions import message
 from mainapp.selectors import selector as sc
 from venue import models as vmd
 
-from django.db.models import F
+from django.db.models import F,Value,CharField
+from django.db.models.functions import Concat
 
 class EventModule:
 
     def __init__(self ,data):
         self.data = data
 
-    def create_events(self):
+    def create_events(self ,request):
         try:
             court_id = self.data['courtId'] 
             max_seat = self.data['maxSeat']
             date = self.data['date']
             time = self.data['time']
             title = self.data['title']
+            image = request.FILES['image']
 
             court = sc.get_court_from_id(court_id=court_id)
 
-            vmd.Event.objects.create(Court = court,MaximunSeat = max_seat , Date = date ,Time = time,EventTitle = title)
+            vmd.Event.objects.create(Court = court,MaximunSeat = max_seat , Date = date ,Time = time,EventTitle = title , Image = image)
             return message('Event Created Successfully') ,201
 
         except KeyError as k:
@@ -31,7 +33,7 @@ class EventModule:
     def get_all_event(self):
         try:
             court_id = self.data['courtId'] 
-            return vmd.Event.objects.filter(Court__CourtID = court_id).values(eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).order_by('-created_at') ,200
+            return vmd.Event.objects.filter(Court__CourtID = court_id).values(image =Concat(Value('http://127.0.0.1:8000/media/'),F('Image'),output_field=CharField()),eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).order_by('-created_at') ,200
         except KeyError as k:
             return message(f'{k} is Missing') ,404  
         except Exception as e:
@@ -41,7 +43,7 @@ class EventModule:
     def get_event_by_id(self):
         try:
             event_id = self.data['eventId'] 
-            return vmd.Event.objects.values(eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).get(EventId = event_id) ,200
+            return vmd.Event.objects.values(image =Concat(Value('http://127.0.0.1:8000/media/'),F('Image'),output_field=CharField()),eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).get(EventId = event_id) ,200
         except KeyError as k:
             return message(f'{k} is Missing') ,404  
         except vmd.Event.DoesNotExist:
@@ -92,6 +94,10 @@ class EventModule:
         except Exception as e:
             print(e)
             return message('Internal Server Error') ,500 
+        
+    def all_events(self):
+        return vmd.Event.objects.all().values(image =Concat(Value('http://127.0.0.1:8000/media/'),F('Image'),output_field=CharField()),eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).order_by('-created_at') ,200
+
 
 
 

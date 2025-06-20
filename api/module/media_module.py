@@ -17,7 +17,7 @@ class SocialMediaModule:
                 print("Cached data")
                 return cache.get(cache_key) ,200
             else:
-                post_data = amd.Post.objects.all().values(postId = F('PostID') ,title =F('Title') ,description =F('Description') ,date = F('Date') ,time=F('Time'),postImage = Concat(Value('http://127.0.0.1:8000/media/') ,F('PostImage'),output_field=CharField()),category= F('Category__SportCategory'),author = Concat(F('Author__FirstName'),Value(' '),F('Author__LastName')))
+                post_data = amd.Post.objects.all().values(postId = F('PostID') ,title =F('Title') ,description =F('Description') ,date = F('Date') ,time=F('Time'),postImage = Concat(Value('http://127.0.0.1:8000/media/') ,F('PostImage'),output_field=CharField()),category= F('Category__SportCategory'),author = Concat(F('Author__FirstName'),Value(' '),F('Author__LastName'))).order_by('-Date')
                 cache.set(cache_key,post_data,timeout=60)
                 return post_data ,200
         except Exception as e:
@@ -50,7 +50,7 @@ class SocialMediaModule:
                 print("Cached data")
                 return cache.get(cache_key) ,200
             else:
-                reel_data = amd.Reel.objects.all().values(reelId = F('ReelID') ,title =F('Title') ,description =F('Description') ,date = F('Date') ,time=F('Time'),video_url = Concat(Value('http://127.0.0.1:8000/media/') ,F('Video'),output_field=CharField()),category= F('Category__SportCategory'),author = Concat(F('Author__FirstName'),Value(' '),F('Author__LastName')))
+                reel_data = amd.Reel.objects.all().values(reelId = F('ReelID') ,title =F('Title') ,description =F('Description') ,date = F('Date') ,time=F('Time'),video_url = Concat(Value('http://127.0.0.1:8000/media/') ,F('Video'),output_field=CharField()),category= F('Category__SportCategory'),author = Concat(F('Author__FirstName'),Value(' '),F('Author__LastName'))).order_by('-Date')
                 cache.set(cache_key,reel_data,timeout=60)
                 return reel_data ,200
         except Exception as e:

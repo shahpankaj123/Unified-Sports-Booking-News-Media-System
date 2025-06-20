@@ -14,4 +14,10 @@ urlpatterns = [
 
     path('GetCourt',v.GetCourt.as_view()),
     path('GetCourtById',v.GetCourtById.as_view()),
+
+    path('GetTicket',v.GetTicketViews.as_view()),
+    path('GetTicketById',v.GetTicketByIdViews.as_view()),
+
+    path('GetEvent',v.GetEventViews.as_view()),
+    path('GetEventById',v.GetEventByIdViews.as_view()),
 ]

@@ -72,4 +72,6 @@ urlpatterns = [
 
     path('GetNotification',v.GetNotificationViews.as_view()),
     path('GetNotificationById',v.GetNotificationByIdViews.as_view()),
+
+    path('GetEvent',v.GetEventViews.as_view()),
 ]
