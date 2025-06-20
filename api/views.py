@@ -6,6 +6,7 @@ from mainapp.selectors.common_functions import message
 
 from api.module.media_module import SocialMediaModule
 from api.module.venue_module import VenueModule
+from api.module.extra_module import ExtraModule
 
 from venue.module.ticket_module import TicketModule
 from venue.module.event_module import EventModule
@@ -134,5 +135,15 @@ class GetEventByIdViews(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                          
+            return Response(message('Something Went Wrong'),status=500) 
+
+class GetCountData(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = ExtraModule(data=data).get_count_data()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                   
 

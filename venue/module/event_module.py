@@ -5,6 +5,8 @@ from venue import models as vmd
 from django.db.models import F,Value,CharField
 from django.db.models.functions import Concat
 
+from django.core.cache import cache
+
 class EventModule:
 
     def __init__(self ,data):
@@ -43,7 +45,11 @@ class EventModule:
     def get_event_by_id(self):
         try:
             event_id = self.data['eventId'] 
-            return vmd.Event.objects.values(image =Concat(Value('http://127.0.0.1:8000/media/'),F('Image'),output_field=CharField()),eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).get(EventId = event_id) ,200
+            if cache.get(f'event_{event_id}'):
+                return cache.get(f'event_{event_id}') ,200
+            data = vmd.Event.objects.values(image =Concat(Value('http://127.0.0.1:8000/media/'),F('Image'),output_field=CharField()),eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).get(EventId = event_id)
+            cache.set(f'event_{event_id}' ,data ,timeout=60)
+            return data ,200
         except KeyError as k:
             return message(f'{k} is Missing') ,404  
         except vmd.Event.DoesNotExist:
@@ -88,7 +94,11 @@ class EventModule:
     def get_all_user_by_event(self):
         try:
             event_id = self.data['eventId']
-            return vmd.EventRegisteredRecord.objects.filter(Event__EventId = event_id).values(firstName = F('User__FirstName') ,lastName =F('User__LastName'),email = F('User__Email')).order_by('-created_at') ,200
+            if cache.get(f'event_user_{event_id}'):
+                return cache.get(f'event_user_{event_id}') ,200
+            data = vmd.EventRegisteredRecord.objects.filter(Event__EventId = event_id).values(firstName = F('User__FirstName') ,lastName =F('User__LastName'),email = F('User__Email')).order_by('-created_at')
+            cache.set(f'event_user_{event_id}' ,data ,timeout=60)
+            return data ,200
         except KeyError as k:
             return message(f'{k} is Missing') ,404  
         except Exception as e:
@@ -96,7 +106,12 @@ class EventModule:
             return message('Internal Server Error') ,500 
         
     def all_events(self):
-        return vmd.Event.objects.all().values(image =Concat(Value('http://127.0.0.1:8000/media/'),F('Image'),output_field=CharField()),eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).order_by('-created_at') ,200
+        if cache.get('events'):
+            return cache.get('events') ,200
+        else:
+            data =  vmd.Event.objects.all().values(image =Concat(Value('http://127.0.0.1:8000/media/'),F('Image'),output_field=CharField()),eventId = F('EventId') ,maxSeat =F('MaximunSeat'),date =F('Date') ,time =F('Time'),title = F('EventTitle')).order_by('-created_at') 
+            cache.set('events' ,data , timeout=60)
+            return data ,200
 
 
 

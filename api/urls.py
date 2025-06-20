@@ -20,4 +20,6 @@ urlpatterns = [
 
     path('GetEvent',v.GetEventViews.as_view()),
     path('GetEventById',v.GetEventByIdViews.as_view()),
+
+    path('GetCountData',v.GetCountData.as_view()),
 ]
