@@ -50,4 +50,6 @@ urlpatterns = [
     path('DelEvent',vv.DeleteEventViews.as_view()),
 
     path('GetRegisteredEventsUsers',vv.GetRegisteredEventsUsers.as_view()),
+
+    path('GetSportCategory',vv.GetSportCategory.as_view()),
 ]

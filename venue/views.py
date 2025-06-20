@@ -10,6 +10,8 @@ from mainapp.mixins import VenueUserPermissionMixin
 from adminapp.module.user_details_module import UserDetailsModule
 from adminapp.module.adds_module import PostModule
 from adminapp.module.reels_module import ReelModule
+from adminapp.module.config.sport_category_module import SportCategoryModule
+
 from venue.module.dashboard_module import DashboardModule
 from venue.module.venue_module import VenueModule
 from venue.module.court_module import CourtModule
@@ -392,5 +394,15 @@ class GetRegisteredEventsUsers(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                                                                                                                      
+            return Response(message('Something Went Wrong'),status=500)   
+
+class GetSportCategory(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = SportCategoryModule(data=data).get_all_sport_categories()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                                                                                                           
                                
