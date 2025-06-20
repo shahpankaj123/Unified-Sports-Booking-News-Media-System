@@ -12,7 +12,8 @@ class CourtModule:
 
     def get_court_data(self):
         try:
-            court_obj = vmd.Court.objects.filter(Venue__Owner__Email = self.request.user)
+            user_id = self.data['userId']
+            court_obj = vmd.Court.objects.filter(Venue__Owner__UserID = user_id)
             final_data = []
             for court in court_obj:
                 court_img = court.courts_images.all()
