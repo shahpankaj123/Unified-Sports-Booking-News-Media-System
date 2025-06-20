@@ -255,6 +255,16 @@ class GetEventViews(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                                                                                       
+            return Response(message('Something Went Wrong'),status=500)  
+
+class GetEventByIdViews(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = EventModule(data=data).get_event_by_id()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                                                                                
         
 
