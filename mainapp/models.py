@@ -70,7 +70,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['FirstName','LastName','UserName','PhoneNumber']
 
     def __str__(self):
-        return self.Email + ' - ' + self.UserType.UserType
+        return self.Email
 
 class Status(models.Model):
     class Meta:

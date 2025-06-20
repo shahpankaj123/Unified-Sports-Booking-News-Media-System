@@ -3,6 +3,7 @@ from .models import Users
 
 class AdminUserPermission(BasePermission):
     def has_permission(self, request, view):
+        print(request.user)
         if not request.user.is_authenticated:
             return bool(False)
         if request.user is None:
