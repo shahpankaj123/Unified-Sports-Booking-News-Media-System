@@ -3,6 +3,8 @@ from mainapp import models as md
 
 from mainapp.selectors.common_functions import message
 
+from django.core.cache import cache
+
 from django.db.models import F
 
 class VenueModule:
@@ -14,6 +16,10 @@ class VenueModule:
     def get_venue_data(self):
         try:
             user_id = self.data['userId']
+            cache_key = f'venue_{user_id}'
+            if cache.get(cache_key):
+                print("cached data fetch")
+                return cache.get(cache_key), 200
             venue_obj = vmd.Venue.objects.get(Owner__UserID = user_id)
             venue_img = venue_obj.venue_images.all()
             data = vmd.Venue.objects.values(venueId = F('VenueID') , venueName = F('Name'),address = F('Address'),cityName = F('City__CityName'), latitude =F('Latitude'), longitude =F('Longitude'),phoneNumber = F('PhoneNumber'),email = F('Email'),desc = F('Description'),openingTime = F('OpeningTime'),closingTime =F('ClosingTime'),isActive = F('IsActive')).get(Owner__UserID = user_id)
@@ -24,6 +30,7 @@ class VenueModule:
             }
             for x in venue_img.values('ImageID', 'Image')
         ]
+            cache.set(cache_key, data, timeout=60)  
             return data , 200
         except vmd.Venue.DoesNotExist:
             return message('Venue Not Found'), 404
