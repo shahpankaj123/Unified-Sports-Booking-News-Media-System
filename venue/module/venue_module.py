@@ -26,7 +26,9 @@ class VenueModule:
         ]
             return data , 200
         except vmd.Venue.DoesNotExist:
-            return [] ,200
+            return message('Venue Not Found'), 404
+        except KeyError as k:
+            return message(f'{k} is Missing'), 400
         except Exception as e:
             print(e)
             return message('Something Went Wrong') ,500  
