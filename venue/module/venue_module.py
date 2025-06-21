@@ -16,7 +16,7 @@ class VenueModule:
             user_id = self.data['userId']
             venue_obj = vmd.Venue.objects.get(Owner__UserID = user_id)
             venue_img = venue_obj.venue_images.all()
-            data = vmd.Venue.objects.values(venueId = F('VenueID') , venueName = F('Name'),address = F('Address'),cityName = F('City__CityName'), latitude =F('Latitude'), longitude =F('Longitude'),phoneNumber = F('PhoneNumber'),email = F('Email'),desc = F('Description'),openingTime = F('OpeningTime'),closingTime =F('ClosingTime'),isActive = F('IsActive')).get(Owner__Email = self.request.user)
+            data = vmd.Venue.objects.values(venueId = F('VenueID') , venueName = F('Name'),address = F('Address'),cityName = F('City__CityName'), latitude =F('Latitude'), longitude =F('Longitude'),phoneNumber = F('PhoneNumber'),email = F('Email'),desc = F('Description'),openingTime = F('OpeningTime'),closingTime =F('ClosingTime'),isActive = F('IsActive')).get(Owner__UserID = user_id)
             data['venueImage'] = [
             {
                 'id': x['ImageID'],
