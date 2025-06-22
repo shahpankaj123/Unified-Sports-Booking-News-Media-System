@@ -18,9 +18,10 @@ class ReelModule:
             description = self.data['description']
             category_id = self.data['categoryId']
             video = self.request.FILES['video']
+            user_id = self.data['userId']
 
             category = mmd.SportCategory.objects.get(SportCategoryID=category_id)
-            author = mmd.Users.objects.get(Email = self.request.user)
+            author = mmd.Users.objects.get(UserID=user_id)
 
             mm.Reel.objects.create(
                 Title=title,
@@ -38,7 +39,8 @@ class ReelModule:
 
     def get_all_posts(self):
         try:
-            posts = mm.Reel.objects.select_related('Author', 'Category').filter(Author__Email = self.request.user).order_by('-Date', '-Time')
+            user_id = self.data['userId']
+            posts = mm.Reel.objects.select_related('Author', 'Category').filter(Author__UserID = user_id).order_by('-Date', '-Time')
             post_list = []
             for post in posts:
                 post_list.append({

@@ -21,7 +21,7 @@ class PostModule:
             user_id = self.data['userId']
 
             category = mmd.SportCategory.objects.get(SportCategoryID=category_id)
-            author = mmd.Users.objects.get(UserID  = user_id)
+            author = mmd.Users.objects.get(UserID = user_id)
 
             mm.Post.objects.create(
                 Title=title,

@@ -15,7 +15,7 @@ class VenueModule:
             print("cached data")
             return cache.get('venue_all') ,200
         final_data = []
-        venue = smd.Venue.objects.select_related('Owner', 'City').prefetch_related('venue_images','venue__courts_images').all()  
+        venue = smd.Venue.objects.filter(IsActive = True).select_related('Owner', 'City').prefetch_related('venue_images','venue__courts_images')  
         for d in venue:
             venue_data = {
                 "venueID": str(d.VenueID),
@@ -53,7 +53,7 @@ class VenueModule:
             print("cached data")
             return cache.get('courts_all') ,200
         final_data = []
-        court = smd.Court.objects.all()
+        court = smd.Court.objects.filter(IsActive = True)
         for c in court:
             court_data = {
                     "courtID": str(c.CourtID),

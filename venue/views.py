@@ -8,7 +8,7 @@ from mainapp.selectors.common_functions import message
 from mainapp.mixins import VenueUserPermissionMixin
 
 from adminapp.module.user_details_module import UserDetailsModule
-from adminapp.module.adds_module import PostModule
+from venue.module.adds_module import PostModule
 from adminapp.module.reels_module import ReelModule
 from adminapp.module.config.sport_category_module import SportCategoryModule
 
