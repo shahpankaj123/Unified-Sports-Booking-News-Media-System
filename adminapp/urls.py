@@ -5,7 +5,6 @@ from adminapp.views import views as v
 
 
 urlpatterns = [
-
     # config urls
     path('GetAllUserType',cvw.GetAllUserTypeView.as_view()),
     path('GetUserTypeById',cvw.GetUserTypeByIdView.as_view()),
@@ -75,4 +74,6 @@ urlpatterns = [
 
     path('GetEvent',v.GetEventViews.as_view()),
     path('GetEventById',v.GetEventByIdViews.as_view()),
+
+    path('GetVenuePaymentMethodData',v.GetVenuePaymentMethodData.as_view()),
 ]

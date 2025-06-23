@@ -170,7 +170,23 @@ class VenueModule:
             return message(f'{k} is Missing'), 400 
         except Exception as e:
             print(e)
-            return message('Something Went Wrong'), 500         
+            return message('Something Went Wrong'), 500   
+
+    def get_venue_payment_method_data(self):
+        try:
+            final_data = []
+            venue = smd.Venue.objects.all()
+            for v in venue:
+                try:
+                    venue_payment_secret_data = smd.OnlinePaymentKhaltiSecretKey.objects.get(Venue__VenueID = v.VenueID)
+                    if venue_payment_secret_data.SecretKey is not None:
+                        final_data.append({'venueId': str(v.VenueID),'venueName': v.Name,'status': True})
+                except Exception as e:
+                    final_data.append({'venueId': str(v.VenueID),'venueName': v.Name,'status': False})
+            return final_data, 200        
+        except Exception as e:
+            print(e)
+            return message('Something Went Wrong'), 500          
 
 
 
