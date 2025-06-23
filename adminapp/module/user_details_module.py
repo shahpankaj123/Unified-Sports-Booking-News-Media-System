@@ -12,6 +12,7 @@ class UserDetailsModule:
 
     def get_user_details(self):
         try:
+            user_id = self.data['userId']
             user_data = md.Users.objects.values(
                 firstName=F('FirstName'),
                 lastName=F('LastName'),
@@ -23,7 +24,7 @@ class UserDetailsModule:
                 email=F('Email'),
                 userName=F('UserName'),
                 phoneNumber=F('PhoneNumber')
-            ).get(Email=self.request.user)
+            ).get(UserID = user_id)
 
             return user_data, 200
 
@@ -39,6 +40,7 @@ class UserDetailsModule:
             last_name = self.data['lastName']
             usr_name = self.data['userName']
             phone_number = self.data['phoneNumber']
+            user_id = self.data['userId']
 
             if md.Users.objects.filter(PhoneNumber = phone_number).exists():
                 return message('Phone Number Already Exists'),400
@@ -46,7 +48,7 @@ class UserDetailsModule:
             if md.Users.objects.filter(UserName = usr_name).exists():
                 return message('UserName Already Exists'),400
             
-            usr = md.Users.objects.get(Email=self.request.user) 
+            usr = md.Users.objects.get(UserID = user_id) 
             usr.FirstName = first_name
             usr.LastName = last_name
             usr.UserName = usr_name
@@ -64,8 +66,9 @@ class UserDetailsModule:
     def upload_profile_img(self):
         try:
             profile_img = self.request.FILES['profileImage']
+            user_id = self.data['userId']
 
-            usr = md.Users.objects.get(Email=self.request.user) 
+            usr = md.Users.objects.get(UserID = user_id) 
             usr.ProfileImage = profile_img
             usr.save()
             return message('Profile Image Uploaded Successfully'),200

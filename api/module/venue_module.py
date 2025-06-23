@@ -53,7 +53,7 @@ class VenueModule:
             print("cached data")
             return cache.get('courts_all') ,200
         final_data = []
-        court = smd.Court.objects.filter(IsActive = True)
+        court = smd.Court.objects.filter(Venue__IsActive = True)
         for c in court:
             court_data = {
                     "courtID": str(c.CourtID),

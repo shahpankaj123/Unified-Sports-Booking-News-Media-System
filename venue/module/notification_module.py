@@ -12,8 +12,9 @@ class NotificationModule:
 
     def get_all_notification(self):
         try:
-            queryset = md.Notification.objects.filter(User__Email=self.request.user).values().order_by('-CreatedAt')
-            count = md.Notification.objects.filter(User__Email=self.request.user,IsRead = False).count()
+            user_id = self.data['userId']
+            queryset = md.Notification.objects.filter(User__UserID = user_id).values().order_by('-CreatedAt')
+            count = md.Notification.objects.filter(User__UserID = user_id ,IsRead = False).count()
             response = {
                 'count': count,
                 'notifications': queryset
