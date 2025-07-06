@@ -4,6 +4,7 @@ from venue import models as vmd
 from threading import Thread
 
 from django.db.models import F,Q
+import time
 
 class TicketModule:
 
@@ -16,12 +17,10 @@ class TicketModule:
             date = self.data['date']
             ticket_list = self.data['ticketList']
             court = vmd.Court.objects.get(CourtID = court_id)
-
-            if vmd.Availability.objects.filter(Court__CourtID = court_id ,Date = date).exists():
-                return message('Ticket Already Issued for Given Date') ,400
             
             thread = Thread(target=self.__create_ticket , args=(ticket_list ,court ,date))
             thread.start()
+            time.sleep(5)
             return message('Ticket Created Successfully') ,201
         except KeyError as k:
             return message(f'{k} is Missing') ,404
@@ -31,12 +30,13 @@ class TicketModule:
             print(e)
             return message('Somthing Went Wrong') ,500   
 
-    def __create_ticket(self ,ticket_list ,court ,date):
+    def __create_ticket(self ,ticket_list ,court : vmd.Court ,date):
         try:
             for ticket in ticket_list:
                 special_price = ticket['specialPrice'] if ticket['specialPrice'] is not None else court.HourlyRate
+                if vmd.Availability.objects.filter(Court = court ,Date = date ,IsActive = True).exclude(ID = id).filter(Q(StartTime__lt =ticket['endTime']) & Q(EndTime__gt =ticket['startTime'])).exists():
+                    continue
                 vmd.Availability.objects.create(Court = court ,Date = date ,StartTime = ticket['startTime'] ,EndTime =ticket['endTime'] , SpecialRate = special_price)
-
         except Exception as e:
             print(e)
             pass  
