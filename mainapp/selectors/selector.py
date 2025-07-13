@@ -71,4 +71,18 @@ def get_court_from_id(court_id :str):
           cache.set(cache_key, court, timeout=60 * 60)
           return court
     except vmd.Court.DoesNotExist:
-        return None     
+        return None  
+
+def get_secret_key(venue_id : str):
+    try:
+        cache_key = f'khalti_secret_key_{venue_id}'
+        if cache.get(cache_key):
+            print("cached data fetch")
+            return cache.get(cache_key)
+        else:
+          khalti_secret_key = vmd.OnlinePaymentKhaltiSecretKey.objects.get(Venue__VenueID = venue_id).SecretKey
+          print("db data fetch")
+          cache.set(cache_key, khalti_secret_key , timeout=60 * 60)
+          return khalti_secret_key
+    except vmd.Court.DoesNotExist:
+        return None  
