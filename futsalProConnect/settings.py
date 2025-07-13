@@ -55,6 +55,7 @@ EXTERNAL_APPS = [
     'rest_framework.authtoken',
     'corsheaders', 
     'drf_yasg',
+    
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + INTERNAL_APPS + EXTERNAL_APPS

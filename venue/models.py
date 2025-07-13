@@ -121,7 +121,7 @@ class PaymentTransaction(models.Model):
 
     PaymentTransactionID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     Bookings = models.ManyToManyField(Booking, related_name='transactions')
-    TransactionID = models.CharField(max_length=100,unique=True)
+    TokenID = models.CharField(max_length=100,unique=True ,null= True ,blank=True)
     Amount = models.DecimalField(max_digits=8, decimal_places=2)
     PaymentStatus = models.ForeignKey(md.Status, on_delete=models.SET_NULL, null=True)
     PaymentMethod = models.ForeignKey(md.PaymentType, on_delete=models.SET_NULL, null=True)
@@ -179,7 +179,8 @@ class OnlinePaymentKhaltiSecretKey(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)    
     Venue = models.ForeignKey(Venue, on_delete=models.SET_NULL, related_name='khalti_keys',null=True)
-    SecretKey = models.CharField(max_length=250) 
+    PrivateSecretKey = models.CharField(max_length=250) 
+    PublicSecretKey = models.CharField(max_length=250,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True) 
 

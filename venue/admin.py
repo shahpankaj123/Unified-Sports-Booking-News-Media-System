@@ -16,3 +16,5 @@ admin.site.register(vmd.VenueApplicationDocument)
 
 admin.site.register(vmd.Event)
 admin.site.register(vmd.EventRegisteredRecord)
+
+admin.site.register(vmd.OnlinePaymentKhaltiSecretKey)

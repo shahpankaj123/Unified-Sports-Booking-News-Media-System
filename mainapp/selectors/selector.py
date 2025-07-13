@@ -45,6 +45,20 @@ def get_status_from_id( status_id :str):
     except md.Status.DoesNotExist:
         return None
     
+def get_status_from_name( status :str):
+    try:
+        cache_key = f'status_{status}'
+        if cache.get(cache_key):
+            print("cached data fetch")
+            return cache.get(cache_key)
+        else:
+          status = md.Status.objects.get(Status = status)
+          print("db data fetch")
+          cache.set(cache_key, status, timeout=60 * 60)
+          return status
+    except md.Status.DoesNotExist:
+        return None    
+    
 def get_user_type_from_id(user_type_id :str):
     try:
         cache_key = f'user_type_{user_type_id}'
@@ -86,3 +100,17 @@ def get_secret_key(venue_id : str):
           return khalti_secret_key
     except vmd.Court.DoesNotExist:
         return None  
+    
+def get_payment_method_from_id( payment_method_id :str):
+    try:
+        cache_key = f'payment_method_{payment_method_id}'
+        if cache.get(cache_key):
+            print("cached data fetch")
+            return cache.get(cache_key)
+        else:
+          pay_method = md.PaymentType.objects.get(PaymentTypeID = payment_method_id)
+          print("db data fetch")
+          cache.set(cache_key, pay_method, timeout=60 * 60)
+          return pay_method
+    except md.PaymentType.DoesNotExist:
+        return None    
