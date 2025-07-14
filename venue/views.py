@@ -3,6 +3,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from mainapp import models as md
+
 from mainapp.selectors.common_functions import message
 
 from mainapp.mixins import VenueUserPermissionMixin
@@ -19,6 +21,7 @@ from venue.module.ticket_module import TicketModule
 from venue.module.Booking_module import BookingModule
 from venue.module.notification_module import NotificationModule
 from venue.module.event_module import EventModule
+from venue.module.payment_service_module import KhaltiPaymentModule
 
 class GetUserDetailsViews(APIView):
 
@@ -388,7 +391,7 @@ class DeleteEventViews(APIView):
 
 class GetRegisteredEventsUsers(APIView):
     def get(self,request,*args,**kwargs):
-        data = request.data
+        data = request.GET
         try:
             res_data,res_status = EventModule(data=data).get_all_user_by_event()
             return Response(res_data,res_status)
@@ -398,11 +401,30 @@ class GetRegisteredEventsUsers(APIView):
 
 class GetSportCategory(APIView):
     def get(self,request,*args,**kwargs):
-        data = request.data
+        data = request.GET
         try:
             res_data,res_status = SportCategoryModule(data=data).get_all_sport_categories()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                                                                                                                           
+            return Response(message('Something Went Wrong'),status=500) 
+
+class GetPaymentType(APIView):
+    def get(self,request,*args,**kwargs):
+        try:
+            return md.PaymentType.objects.all().values() ,200
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500) 
+
+
+class CreateTicketView(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = KhaltiPaymentModule(data=data).booking_ticket()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                                                                                                                  
                                

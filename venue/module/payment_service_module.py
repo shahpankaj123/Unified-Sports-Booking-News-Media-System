@@ -6,23 +6,25 @@ from mainapp.selectors.common_functions import message
 from django.db import transaction
 
 import requests
+import json
 
 class KhaltiPaymentModule:
 
     def __init__(self ,data):
         self.data = data
-        self.khalti_secret_key = sc.get_secret_key(venue_id=self.data['venueId'])
-        self.headers = { "Authorization": f"Key {self.khalti_secret_key}"}
+        self.ticket_id = self.data['ticketId']
+        self.ticket = vmd.Availability.objects.get(ID = self.ticket_id)
+        self.khalti_secret_key = sc.get_secret_key(venue_id= self.ticket.Court.Venue.VenueID)
+        self.headers = {'Authorization': f'key {self.khalti_secret_key}','Content-Type': 'application/json'}
+
 
     def booking_ticket(self):
         try:
             user_id = self.data['userId']
-            ticket_id = self.data['ticketId']
             payment_method = self.data['paymentTypeId']
             total_price = self.data['totalPrice']
 
             self.usr = sc.get_user_from_id(user_id=user_id)
-            self.ticket = vmd.Availability.objects.get(ID = ticket_id)
             self.status = sc.get_status_from_name(status='Pending')
             self.pay_method = sc.get_payment_method_from_id(payment_method_id = payment_method)
 
@@ -35,9 +37,32 @@ class KhaltiPaymentModule:
                 book = vmd.Booking.objects.create(User = self.usr ,Availability = self.ticket , Status = self.status ,PaymentMethod = self.pay_method ,TotalPrice = total_price)
                 vmd.PaymentTransaction.objects.create(Bookings = book ,Amount = total_price ,PaymentStatus = self.status ,PaymentMethod = self.pay_method)
 
+            if self.pay_method.PaymentTypeName == 'Online':
+                url = "https://dev.khalti.com/api/v2/epayment/initiate/"
+
+                payload = json.dumps({
+                        "return_url": "http://127.0.0.1:3000",
+                        "website_url": "http://127.0.0.1:3000",
+                        "amount": book.TotalPrice,
+                        "purchase_order_id": book.BookingID,
+                        "purchase_order_name": self.ticket.Court.Name + ' ' + self.ticket.StartTime + ' - ' + self.ticket.EndTime + 'Slot',
+                        "customer_info": {
+                        "name": self.usr.FirstName + ' ' + self.usr.LastName,
+                        "email": self.usr.Email,
+                        "phone": self.usr.PhoneNumber
+                        }
+                    })
+                response = requests.request("POST", url, headers= self.headers, data=payload)
+                print(response)
+
+                return response ,200
+
+
             return { 
                 'bookId' : str(book.BookingID),
-                'price' : book.TotalPrice
+                'price' : book.TotalPrice,
+                'status' : True,
+                'paymentStatus' : 'Pending'
             } ,200
 
         except Exception as e:
@@ -55,7 +80,11 @@ class KhaltiPaymentModule:
             print(e)
 
     def verify_payment(self):
-        pass
+        try:
+            pass
+
+        except Exception as e:
+            print(e)    
 
 
 
