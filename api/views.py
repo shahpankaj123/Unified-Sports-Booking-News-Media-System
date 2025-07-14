@@ -3,6 +3,8 @@ from rest_framework.response import Response
 
 from mainapp.selectors.common_functions import message
 
+from mainapp import models as md
+
 
 from api.module.media_module import SocialMediaModule
 from api.module.venue_module import VenueModule
@@ -145,5 +147,13 @@ class GetCountData(APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                                                                   
+            return Response(message('Something Went Wrong'),status=500)   
+
+class GetPaymentType(APIView):
+    def get(self,request,*args,**kwargs):
+        try:
+            return md.PaymentType.objects.all().values() ,200
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                                                                         
 

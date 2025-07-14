@@ -22,4 +22,6 @@ urlpatterns = [
     path('GetEventById',v.GetEventByIdViews.as_view()),
 
     path('GetCountData',v.GetCountData.as_view()),
+
+    path('GetPaymentType',v.GetPaymentType.as_view()),
 ]

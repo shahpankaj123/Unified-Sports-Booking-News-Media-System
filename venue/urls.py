@@ -52,7 +52,4 @@ urlpatterns = [
     path('GetRegisteredEventsUsers',vv.GetRegisteredEventsUsers.as_view()),
 
     path('GetSportCategory',vv.GetSportCategory.as_view()),
-    path('GetPaymentType',vv.GetPaymentType.as_view()),
-
-    path('CreateTicket',vv.CreateTicketView.as_view()),
 ]

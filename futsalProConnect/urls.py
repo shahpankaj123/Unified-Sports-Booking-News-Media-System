@@ -42,6 +42,7 @@ urlpatterns = [
     path('web/api/v1/account/',include('mainapp.urls')),
     path('web/api/v1/adminapp/',include('adminapp.urls')),
     path('web/api/v1/venue/',include('venue.urls')),
+    path('web/api/v1/user/',include('userapi.urls')),
 
     path('web/api/v1/',include('api.urls')),
 

@@ -48,6 +48,7 @@ INTERNAL_APPS = [
     'adminapp',
     'adds',
     'api',
+    'userapi',
 ]
 
 EXTERNAL_APPS = [
