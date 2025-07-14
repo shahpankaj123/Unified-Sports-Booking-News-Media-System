@@ -35,7 +35,8 @@ class KhaltiPaymentModule:
                 self.ticket.IsActive = 0
                 self.ticket.save()
                 book = vmd.Booking.objects.create(User = self.usr ,Availability = self.ticket , Status = self.status ,PaymentMethod = self.pay_method ,TotalPrice = total_price)
-                vmd.PaymentTransaction.objects.create(Bookings = book ,Amount = total_price ,PaymentStatus = self.status ,PaymentMethod = self.pay_method)
+                payment =vmd.PaymentTransaction.objects.create(Amount = total_price ,PaymentStatus = self.status ,PaymentMethod = self.pay_method)
+                payment.Bookings.set([book])
 
             if self.pay_method.PaymentTypeName == 'Online':
                 url = "https://dev.khalti.com/api/v2/epayment/initiate/"
@@ -44,8 +45,8 @@ class KhaltiPaymentModule:
                         "return_url": "http://127.0.0.1:3000",
                         "website_url": "http://127.0.0.1:3000",
                         "amount": book.TotalPrice,
-                        "purchase_order_id": book.BookingID,
-                        "purchase_order_name": self.ticket.Court.Name + ' ' + self.ticket.StartTime + ' - ' + self.ticket.EndTime + 'Slot',
+                        "purchase_order_id": str(book.BookingID),
+                        "purchase_order_name": self.ticket.Court.Name + ' ' + str(self.ticket.StartTime) + ' - ' + str(self.ticket.EndTime)+ 'Slot',
                         "customer_info": {
                         "name": self.usr.FirstName + ' ' + self.usr.LastName,
                         "email": self.usr.Email,
@@ -53,9 +54,10 @@ class KhaltiPaymentModule:
                         }
                     })
                 response = requests.request("POST", url, headers= self.headers, data=payload)
+                
                 print(response)
 
-                return response ,200
+                return json.dumps(response) ,200
 
 
             return { 
