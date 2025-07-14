@@ -94,7 +94,7 @@ def get_secret_key(venue_id : str):
             print("cached data fetch")
             return cache.get(cache_key)
         else:
-          khalti_secret_key = vmd.OnlinePaymentKhaltiSecretKey.objects.get(Venue__VenueID = venue_id).SecretKey
+          khalti_secret_key = vmd.OnlinePaymentKhaltiSecretKey.objects.get(Venue__VenueID = venue_id).PrivateSecretKey
           print("db data fetch")
           cache.set(cache_key, khalti_secret_key , timeout=60 * 60)
           return khalti_secret_key
