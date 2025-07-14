@@ -57,8 +57,7 @@ class KhaltiPaymentModule:
                 
                 print(response)
 
-                return json.dumps(response) ,200
-
+                return response.json(), 200 
 
             return { 
                 'bookId' : str(book.BookingID),
