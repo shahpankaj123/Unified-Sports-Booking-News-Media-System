@@ -13,7 +13,7 @@ class KhaltiPaymentModule:
     def __init__(self ,data):
         self.data = data
         self.ticket_id = self.data['ticketId']
-        self.ticket = vmd.Availability.objects.get(ID = self.ticket_id)
+        self.ticket = vmd.Availability.objects.get(ID = self.ticket_id[0])
         self.khalti_secret_key = sc.get_secret_key(venue_id= self.ticket.Court.Venue.VenueID)
         self.headers = {'Authorization': f'key {self.khalti_secret_key}','Content-Type': 'application/json'}
 
@@ -64,10 +64,12 @@ class KhaltiPaymentModule:
                 'status' : True,
                 'paymentStatus' : 'Pending'
             } ,200
-
+        
+        except KeyError as k:
+            return message(f'{k} is Missing') ,400
         except Exception as e:
             print(e)
-            pass        
+            return message('Something Went Wrong') ,500       
 
     def verify_khalti_payment(self ,token, amount):
         try:
