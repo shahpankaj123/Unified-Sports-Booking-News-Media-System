@@ -18,3 +18,13 @@ class CreateTicketView(APIView):
         except Exception as e:
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
+        
+class VerifyPaymentView(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = KhaltiPaymentModule(data=data).verify_payment()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)         
