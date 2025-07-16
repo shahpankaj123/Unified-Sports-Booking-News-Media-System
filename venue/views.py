@@ -405,6 +405,16 @@ class GetSportCategory(APIView):
         except Exception as e:
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
+        
+class CreateSecreteKey(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = SportCategoryModule(data=data).get_all_sport_categories()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)         
 
                                                                                                                                                                 
                                

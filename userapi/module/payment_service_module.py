@@ -58,7 +58,7 @@ class KhaltiPaymentModule:
                 url = "https://dev.khalti.com/api/v2/epayment/initiate/"
 
                 payload = json.dumps({
-                        "return_url": "http://127.0.0.1:3000",
+                        "return_url": f"http://127.0.0.1:3000/payment/success?courtId={payment.Bookings.first().Availability.Court.CourtID}",
                         "website_url": "http://127.0.0.1:3000",
                         "amount": float(payment.Amount) * 100.0,
                         "purchase_order_id": str(payment.PaymentTransactionID),
