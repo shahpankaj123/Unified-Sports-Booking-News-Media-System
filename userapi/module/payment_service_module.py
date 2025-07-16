@@ -46,6 +46,8 @@ class KhaltiPaymentModule:
                     })
 
                     book_list.append(book)
+
+            print(payment_breakdown)        
                 
             with transaction.atomic():
                 payment =vmd.PaymentTransaction.objects.create(Amount = total_price ,PaymentStatus = self.status ,PaymentMethod = self.pay_method)
@@ -60,12 +62,13 @@ class KhaltiPaymentModule:
                         "amount": float(payment.Amount) * 100.0,
                         "purchase_order_id": str(payment.PaymentTransactionID),
                         "purchase_order_name": self.ticket_data.Court.Name + ' - ' + 'Slot',
-                        "amount_breakdown": payment_breakdown ,
                         "customer_info": {
                         "name": self.usr.FirstName + ' ' + self.usr.LastName,
                         "email": self.usr.Email,
                         "phone": self.usr.PhoneNumber
-                        }
+                        },
+                        "amount_breakdown": payment_breakdown,
+                        
                     })
                 
                 response = requests.request("POST", url, headers= self.headers, data=payload)
