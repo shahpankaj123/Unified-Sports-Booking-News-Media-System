@@ -53,5 +53,6 @@ urlpatterns = [
 
     path('GetSportCategory',vv.GetSportCategory.as_view()),
 
-    path('CreateSecreteKey',vv.GetSportCategory.as_view()),
+    path('CreateSecreteKey',vv.CreateSecreteKey.as_view()),
+    path('GetSecreteKey',vv.GetSecreteKey.as_view()),
 ]

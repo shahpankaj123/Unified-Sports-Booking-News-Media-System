@@ -40,9 +40,6 @@ class KhaltiPaymentModule:
                     self.ticket_data = vmd.Availability.objects.get(ID = t)
                     book = vmd.Booking.objects.create(User = self.usr ,Availability = self.ticket_data , Status = self.status ,PaymentMethod = self.pay_method ,TotalPrice = total_price)
 
-                    self.ticket_data.IsActive = 0
-                    self.ticket_data.save()
-
                     payment_breakdown.append({
                         'label': str(self.ticket_data.StartTime) + ' - ' + str(self.ticket_data.EndTime)+ ' ' + 'Slot',
                         'amount' : float(book.TotalPrice) * 100.0
@@ -58,8 +55,8 @@ class KhaltiPaymentModule:
                 url = "https://dev.khalti.com/api/v2/epayment/initiate/"
 
                 payload = json.dumps({
-                        "return_url": f"http://127.0.0.1:3000/payment/success?courtId={payment.Bookings.first().Availability.Court.CourtID}",
-                        "website_url": "http://127.0.0.1:3000",
+                        "return_url": f"http://localhost:3000/payment/success?courtId={payment.Bookings.first().Availability.Court.CourtID}",
+                        "website_url": "http://localhost:3000",
                         "amount": float(payment.Amount) * 100.0,
                         "purchase_order_id": str(payment.PaymentTransactionID),
                         "purchase_order_name": self.ticket_data.Court.Name + ' - ' + 'Slot',
@@ -116,6 +113,9 @@ class KhaltiPaymentModule:
                     payment.PaymentStatus = self.status
 
                     for booking in payment.Bookings.all():
+                        booking.Availability.IsActive = 0
+                        booking.Availability.save()
+
                         booking.Status = self.status
                         booking.save()
 
@@ -130,9 +130,6 @@ class KhaltiPaymentModule:
                     payment.PaymentStatus = self.status
 
                     for booking in payment.Bookings.all():
-                        booking.Availability.IsActive = 1
-                        booking.Availability.save()
-
                         booking.Status = self.status
                         booking.save()
 

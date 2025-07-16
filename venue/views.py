@@ -19,6 +19,7 @@ from venue.module.ticket_module import TicketModule
 from venue.module.Booking_module import BookingModule
 from venue.module.notification_module import NotificationModule
 from venue.module.event_module import EventModule
+from venue.module.payment_secret_key_module import PaymentSecreatKeyModule
 
 class GetUserDetailsViews(APIView):
 
@@ -410,11 +411,21 @@ class CreateSecreteKey(APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
-            res_data,res_status = SportCategoryModule(data=data).get_all_sport_categories()
+            res_data,res_status = PaymentSecreatKeyModule(data=data).create()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)         
+            return Response(message('Something Went Wrong'),status=500) 
+
+class GetSecreteKey(APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = PaymentSecreatKeyModule(data=data).get()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                   
 
                                                                                                                                                                 
                                
