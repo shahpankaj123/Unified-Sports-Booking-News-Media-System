@@ -33,21 +33,12 @@ class KhaltiPaymentModule:
                 return message('Ticket Already Booked') ,400
             
             book_list = []
-            payment_breakdown = []
 
             for t in self.ticket_id:
                 with transaction.atomic():
                     self.ticket_data = vmd.Availability.objects.get(ID = t)
-                    book = vmd.Booking.objects.create(User = self.usr ,Availability = self.ticket_data , Status = self.status ,PaymentMethod = self.pay_method ,TotalPrice = self.ticket_data.SpecialRate)
-
-                    payment_breakdown.append({
-                        'label': str(self.ticket_data.StartTime) + ' - ' + str(self.ticket_data.EndTime)+ ' ' + 'Slot',
-                        'amount' : float(book.TotalPrice) * 100.0
-                    })
-
-                    book_list.append(book)
-
-            print(payment_breakdown)        
+                    book = vmd.Booking.objects.create(User = self.usr ,Availability = self.ticket_data , Status = self.status ,PaymentMethod = self.pay_method ,TotalPrice = self.ticket_data.SpecialRate)   
+                    book_list.append(book)   
                 
             with transaction.atomic():
                 payment =vmd.PaymentTransaction.objects.create(Amount = total_price ,PaymentStatus = self.status ,PaymentMethod = self.pay_method)
@@ -67,16 +58,6 @@ class KhaltiPaymentModule:
                         "email": self.usr.Email,
                         "phone": self.usr.PhoneNumber
                         },
-                        "amount_breakdown": payment_breakdown,
-                        "product_details": [
-                                    {
-                                        "identity": "1234567890",
-                                        "name": "Unified Booking System",
-                                        "total_price": float(payment.Amount) * 100.0,
-                                        "quantity": len(payment_breakdown),
-                                        "unit_price": float(payment.Bookings.first().TotalPrice) * 100.0
-                                    }
-                        ]   
                     })
                 
                 print(payload)
