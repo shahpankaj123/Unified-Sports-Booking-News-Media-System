@@ -72,9 +72,8 @@ class KhaltiPaymentModule:
                                     {
                                         "identity": "1234567890",
                                         "name": "Unified Booking System",
-                                        "total_price": float(payment.Amount) + 100.0,
+                                        "total_price": float(payment.Amount) * 100.0,
                                         "quantity": len(payment_breakdown),
-                                
                                     }
                         ]   
                     })
