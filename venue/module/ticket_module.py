@@ -34,7 +34,7 @@ class TicketModule:
         try:
             for ticket in ticket_list:
                 special_price = ticket['specialPrice'] if ticket['specialPrice'] is not None else court.HourlyRate
-                if vmd.Availability.objects.filter(Court = court ,Date = date ,IsActive = True).exclude(ID = id).filter(Q(StartTime__lt =ticket['endTime']) & Q(EndTime__gt =ticket['startTime'])).exists():
+                if vmd.Availability.objects.filter(Court = court ,Date = date ,IsActive = True).filter(Q(StartTime__lt =ticket['endTime']) & Q(EndTime__gt =ticket['startTime'])).exists():
                     continue
                 vmd.Availability.objects.create(Court = court ,Date = date ,StartTime = ticket['startTime'] ,EndTime =ticket['endTime'] , SpecialRate = special_price)
         except Exception as e:
