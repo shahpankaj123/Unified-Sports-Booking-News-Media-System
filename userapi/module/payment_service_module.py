@@ -79,6 +79,8 @@ class KhaltiPaymentModule:
                         ]   
                     })
                 
+                print(payload)
+                
                 response = requests.request("POST", url, headers= self.headers, data=payload)
                 
                 print(response)
