@@ -103,9 +103,6 @@ class KhaltiPaymentModule:
 
             ticket_list = [x.Availability.ID for x in payment.Bookings.all()]
 
-            if vmd.Availability.objects.filter(ID__in = ticket_list ,IsActive = 0).exists():
-                res['status'] = 'Rejected'
-
             if res['status'] == 'Completed':
                 with transaction.atomic():
                     self.status = sc.get_status_from_name(status='Success')
