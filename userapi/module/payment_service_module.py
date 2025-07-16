@@ -1,9 +1,11 @@
 
 from venue import models as vmd
+from mainapp import models as md
 from mainapp.selectors import selector as sc
 from mainapp.selectors.common_functions import message
 
 from django.db import transaction
+from datetime import datetime
 
 import requests
 import json
@@ -102,7 +104,9 @@ class KhaltiPaymentModule:
         try:
             pidx = self.data['pidx']
             purchase_order_id = self.data['purchaseOrderId']
+            user_id = self.data['userId']
             res = self.verify_khalti_payment(pidx=pidx)
+            usr = sc.get_user_from_id(user_id = user_id)
 
             payment =vmd.PaymentTransaction.objects.get(PaymentTransactionID = purchase_order_id)
 
@@ -116,6 +120,7 @@ class KhaltiPaymentModule:
                         booking.save()
 
                     payment.save()
+                    md.Notification.objects.create(Message = f'{payment.Bookings.first().Availability.Court.Name} Ticket has Been Booked Successfully',User = usr , Date = datetime.now().date())
 
                 return message('Payment Verified Success') ,200    
 
@@ -132,6 +137,7 @@ class KhaltiPaymentModule:
                         booking.save()
 
                     payment.save()
+                    md.Notification.objects.create(Message = f'{payment.Bookings.first().Availability.Court.Name} Ticket has Been Rejected',User = usr , Date = datetime.now().date())
 
                 return message('Payment Verified Failed') ,400
             
@@ -142,6 +148,18 @@ class KhaltiPaymentModule:
         except Exception as e:
             print(e)  
             return message('Something Went Wrong') ,500  
+        
+    def get_user_booking_details(self):
+        try:
+            user_id = self.data['userId']
+            return vmd.Booking.objects.filter(User__UserID = user_id).values().order_by('-UpdatedAt') ,200
+        except KeyError as k:
+            return message(f'{k} is Missing') ,400
+        except Exception as e:
+            print(e)  
+            return message('Something Went Wrong') ,500     
+
+
 
 
 

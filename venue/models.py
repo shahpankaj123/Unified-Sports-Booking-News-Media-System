@@ -180,7 +180,6 @@ class OnlinePaymentKhaltiSecretKey(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)    
     Venue = models.ForeignKey(Venue, on_delete=models.SET_NULL, related_name='khalti_keys',null=True)
     PrivateSecretKey = models.CharField(max_length=250) 
-    PublicSecretKey = models.CharField(max_length=250,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True) 
 
