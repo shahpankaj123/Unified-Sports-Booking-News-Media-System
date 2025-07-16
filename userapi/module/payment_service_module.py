@@ -74,6 +74,7 @@ class KhaltiPaymentModule:
                                         "name": "Unified Booking System",
                                         "total_price": float(payment.Amount) * 100.0,
                                         "quantity": len(payment_breakdown),
+                                        "unit_price": float(payment.Bookings.first().TotalPrice) * 100.0
                                     }
                         ]   
                     })
