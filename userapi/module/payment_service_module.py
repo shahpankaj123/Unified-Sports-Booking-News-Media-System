@@ -68,7 +68,15 @@ class KhaltiPaymentModule:
                         "phone": self.usr.PhoneNumber
                         },
                         "amount_breakdown": payment_breakdown,
-                        
+                        "product_details": [
+                                    {
+                                        "identity": "1234567890",
+                                        "name": "Unified Booking System",
+                                        "total_price": float(payment.Amount) + 100.0,
+                                        "quantity": 1,
+                                "unit_price": float(payment.Amount) + 100.0
+                                    }
+                        ]   
                     })
                 
                 response = requests.request("POST", url, headers= self.headers, data=payload)
