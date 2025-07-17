@@ -43,6 +43,11 @@ class BookingModule:
 
             booking = vmd.Booking.objects.get(BookingID = booking_id)
             status = sc.get_status_from_id(status_id= status_id)
+
+            if status.Status == 'Rejected':
+                booking.Availability.IsActive = 1
+                booking.Availability.save()
+                
             booking.Status = status
             booking.save()
             md.Notification.objects.create(User =  booking.User , Message = f"Your Booking for Ticket {booking.Availability.StartTime} to {booking.Availability.EndTime} on {booking.Availability.Date} Status Changed to {status.Status}",Date = datetime.now().date())

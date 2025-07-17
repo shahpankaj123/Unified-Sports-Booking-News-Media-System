@@ -76,4 +76,5 @@ urlpatterns = [
     path('GetEventById',v.GetEventByIdViews.as_view()),
 
     path('GetVenuePaymentMethodData',v.GetVenuePaymentMethodData.as_view()),
+    path('GetBooking',v.GetBookingViews.as_view()),
 ]

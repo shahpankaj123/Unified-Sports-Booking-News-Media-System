@@ -3,10 +3,23 @@ from django.db.models import Sum
 
 from mainapp.selectors.common_functions import message
 
+from django.db.models import F,Value,CharField
+from django.db.models.functions import Concat
+
 class DashBoarModule:
 
     def __init__(self ,data):
         self.data = data
+
+    def get_user_booking_details(self):
+        try:
+            user_id = self.data['userId']
+            return vmd.Booking.objects.filter(User__UserID = user_id).values(bookingId = F('BookingID') ,userName = Concat(F('User__FirstName'),Value(' '),F('User__LastName')), ticket = Concat(F('Availability__StartTime'),Value(' - '),F('Availability__EndTime'),output_field=CharField()),status=F('Status__Status'),paymentMethod = F('PaymentMethod__PaymentTypeName'),price =F('TotalPrice')).order_by('-UpdatedAt') ,200
+        except KeyError as k:
+            return message(f'{k} is Missing') ,400
+        except Exception as e:
+            print(e)  
+            return message('Something Went Wrong') ,500      
 
     def get_data(self):
         try:

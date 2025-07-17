@@ -10,10 +10,11 @@ from userapi.module.dashboard_module import DashBoarModule
 from mainapp.selectors.common_functions import message
 
 from mainapp.mixins import NormalUserPermissionMixin
+from venue.module.notification_module import NotificationModule
 
 # Create your views here.
 class GetDashBoardData(NormalUserPermissionMixin ,APIView):
-    def post(self,request,*args,**kwargs):
+    def get(self,request,*args,**kwargs):
         data = request.GET
         try:
             res_data,res_status = DashBoarModule(data=data).get_data()
@@ -47,9 +48,29 @@ class GetBookingData(NormalUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
-            res_data,res_status = KhaltiPaymentModule(data=data).get_user_booking_details()
+            res_data,res_status = DashBoarModule(data=data).get_user_booking_details()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
+        
+class GetNotificationViews(NormalUserPermissionMixin ,APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = NotificationModule(data=data,request=request).get_all_notification()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)   
+
+class GetNotificationByIdViews(NormalUserPermissionMixin ,APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = NotificationModule(data=data,request=request).get_notification_by_id()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)         
 

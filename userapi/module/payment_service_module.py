@@ -136,16 +136,7 @@ class KhaltiPaymentModule:
         except Exception as e:
             print(e)  
             return message('Something Went Wrong') ,500  
-        
-    def get_user_booking_details(self):
-        try:
-            user_id = self.data['userId']
-            return vmd.Booking.objects.filter(User__UserID = user_id).values().order_by('-UpdatedAt') ,200
-        except KeyError as k:
-            return message(f'{k} is Missing') ,400
-        except Exception as e:
-            print(e)  
-            return message('Something Went Wrong') ,500     
+           
 
 
 
