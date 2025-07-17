@@ -21,7 +21,8 @@ from venue.module.notification_module import NotificationModule
 from venue.module.event_module import EventModule
 from venue.module.payment_secret_key_module import PaymentSecreatKeyModule
 
-class GetUserDetailsViews(APIView):
+
+class GetUserDetailsViews(VenueUserPermissionMixin ,APIView):
 
     def get(self,request,*args,**kwargs):
         data = request.GET
@@ -32,7 +33,7 @@ class GetUserDetailsViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)   
 
-class UpdateUserDetailsViews(APIView):
+class UpdateUserDetailsViews(VenueUserPermissionMixin ,APIView):
 
     def post(self,request,*args,**kwargs):
         data = request.data
@@ -43,7 +44,7 @@ class UpdateUserDetailsViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)      
 
-class UploadUserProfileImageViews(APIView):
+class UploadUserProfileImageViews(VenueUserPermissionMixin ,APIView):
 
     def post(self,request,*args,**kwargs):
         data = request.data
@@ -56,7 +57,7 @@ class UploadUserProfileImageViews(APIView):
         
         
 # post Views
-class GetPostViews(APIView):
+class GetPostViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -66,7 +67,7 @@ class GetPostViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
         
-class CreatePostViews(APIView):
+class CreatePostViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -76,7 +77,7 @@ class CreatePostViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
 
-class GetPostDetailViews(APIView):
+class GetPostDetailViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -86,7 +87,7 @@ class GetPostDetailViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
         
-class CreateReelViews(APIView):
+class CreateReelViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -96,7 +97,7 @@ class CreateReelViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class GetReelViews(APIView):
+class GetReelViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -106,7 +107,7 @@ class GetReelViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
 
-class GetReelByIdViews(APIView):
+class GetReelByIdViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -116,7 +117,7 @@ class GetReelByIdViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
 
-class UpdateReelViews(APIView):
+class UpdateReelViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -126,7 +127,7 @@ class UpdateReelViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class DelReelViews(APIView):
+class DelReelViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -136,7 +137,7 @@ class DelReelViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)         
 
-class UpdatePostViews(APIView):   
+class UpdatePostViews(VenueUserPermissionMixin ,APIView):   
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -146,7 +147,7 @@ class UpdatePostViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
         
-class DeletePostViews(APIView):       
+class DeletePostViews(VenueUserPermissionMixin ,APIView):       
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -156,7 +157,7 @@ class DeletePostViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
         
-class GetDashboardViews(APIView):
+class GetDashboardViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -166,7 +167,7 @@ class GetDashboardViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class GetVenueDetailsViews(APIView):
+class GetVenueDetailsViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -176,7 +177,7 @@ class GetVenueDetailsViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
 
-class UpdateVenueDetailsViews(APIView):       
+class UpdateVenueDetailsViews(VenueUserPermissionMixin ,APIView):       
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -186,7 +187,7 @@ class UpdateVenueDetailsViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class UploadVenueImageViews(APIView):
+class UploadVenueImageViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -196,7 +197,7 @@ class UploadVenueImageViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class GetCourtViews(APIView):
+class GetCourtViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -206,7 +207,7 @@ class GetCourtViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class GetCourtByIdViews(APIView):
+class GetCourtByIdViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -216,7 +217,7 @@ class GetCourtByIdViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)    
 
-class CreateCourtViews(APIView):
+class CreateCourtViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -226,7 +227,7 @@ class CreateCourtViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
 
-class UpdateCourtViews(APIView):
+class UpdateCourtViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -236,7 +237,7 @@ class UpdateCourtViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)
         
-class UploadCourtImageViews(APIView):
+class UploadCourtImageViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -246,7 +247,7 @@ class UploadCourtImageViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class CreateTicketViews(APIView):
+class CreateTicketViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -256,7 +257,7 @@ class CreateTicketViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class GetTicketViews(APIView):
+class GetTicketViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -266,7 +267,7 @@ class GetTicketViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class GetTicketByIdViews(APIView):
+class GetTicketByIdViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -276,7 +277,7 @@ class GetTicketByIdViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class UpdateTicketViews(APIView):
+class UpdateTicketViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -286,7 +287,7 @@ class UpdateTicketViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class GetBookingViews(APIView):
+class GetBookingViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -297,7 +298,7 @@ class GetBookingViews(APIView):
             return Response(message('Something Went Wrong'),status=500)    
 
 
-class GetBookingByIdViews(APIView):
+class GetBookingByIdViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -307,7 +308,7 @@ class GetBookingByIdViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)      
 
-class UpdateBookingStatusViews(APIView):
+class UpdateBookingStatusViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -317,7 +318,7 @@ class UpdateBookingStatusViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class GetNotificationViews(APIView):
+class GetNotificationViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -327,7 +328,7 @@ class GetNotificationViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)   
 
-class GetNotificationByIdViews(APIView):
+class GetNotificationByIdViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -337,7 +338,7 @@ class GetNotificationByIdViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class CreateEventViews(APIView):
+class CreateEventViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -347,7 +348,7 @@ class CreateEventViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class GetEventViews(APIView):
+class GetEventViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -357,7 +358,7 @@ class GetEventViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class GetEventByIdViews(APIView):
+class GetEventByIdViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -367,7 +368,7 @@ class GetEventByIdViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class UpdateEventViews(APIView):
+class UpdateEventViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -377,7 +378,7 @@ class UpdateEventViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class DeleteEventViews(APIView):
+class DeleteEventViews(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -387,7 +388,7 @@ class DeleteEventViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class GetRegisteredEventsUsers(APIView):
+class GetRegisteredEventsUsers(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -397,7 +398,7 @@ class GetRegisteredEventsUsers(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)   
 
-class GetSportCategory(APIView):
+class GetSportCategory(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -407,7 +408,7 @@ class GetSportCategory(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
         
-class CreateSecreteKey(APIView):
+class CreateSecreteKey(VenueUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -417,7 +418,7 @@ class CreateSecreteKey(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class GetSecreteKey(APIView):
+class GetSecreteKey(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:

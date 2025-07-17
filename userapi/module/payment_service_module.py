@@ -38,7 +38,10 @@ class KhaltiPaymentModule:
                 with transaction.atomic():
                     self.ticket_data = vmd.Availability.objects.get(ID = t)
                     book = vmd.Booking.objects.create(User = self.usr ,Availability = self.ticket_data , Status = self.status ,PaymentMethod = self.pay_method ,TotalPrice = self.ticket_data.SpecialRate)   
-                    book_list.append(book)   
+                    book_list.append(book)  
+
+                    self.ticket_data.IsActive = 0
+                    self.ticket_data.save()
                 
             with transaction.atomic():
                 payment =vmd.PaymentTransaction.objects.create(Amount = total_price ,PaymentStatus = self.status ,PaymentMethod = self.pay_method)
@@ -60,12 +63,7 @@ class KhaltiPaymentModule:
                         },
                     })
                 
-                print(payload)
-                
                 response = requests.request("POST", url, headers= self.headers, data=payload)
-                
-                print(response)
-
                 return response.json(), 200 
 
             return { 
@@ -86,7 +84,6 @@ class KhaltiPaymentModule:
             url = "https://dev.khalti.com/api/v2/epayment/lookup/"
             payload = json.dumps({"pidx": pidx})
             response = requests.post(url, data=payload ,headers=self.headers)
-            print(response)
             return response.json()
         except Exception as e:
             print(e)
@@ -101,17 +98,12 @@ class KhaltiPaymentModule:
 
             payment =vmd.PaymentTransaction.objects.get(PaymentTransactionID = purchase_order_id)
 
-            ticket_list = [x.Availability.ID for x in payment.Bookings.all()]
-
             if res['status'] == 'Completed':
                 with transaction.atomic():
                     self.status = sc.get_status_from_name(status='Success')
                     payment.PaymentStatus = self.status
 
                     for booking in payment.Bookings.all():
-                        booking.Availability.IsActive = 0
-                        booking.Availability.save()
-
                         booking.Status = self.status
                         booking.save()
 
@@ -126,6 +118,9 @@ class KhaltiPaymentModule:
                     payment.PaymentStatus = self.status
 
                     for booking in payment.Bookings.all():
+                        booking.Availability.IsActive = 1
+                        booking.Availability.save()
+
                         booking.Status = self.status
                         booking.save()
 

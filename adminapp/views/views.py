@@ -227,7 +227,7 @@ class UploadUserProfileImageViews(AdminUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class GetNotificationViews(APIView):
+class GetNotificationViews(AdminUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -237,7 +237,7 @@ class GetNotificationViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)   
 
-class GetNotificationByIdViews(APIView):
+class GetNotificationByIdViews(AdminUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -247,7 +247,7 @@ class GetNotificationByIdViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)    
 
-class GetEventViews(APIView):
+class GetEventViews(AdminUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -257,7 +257,7 @@ class GetEventViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
 
-class GetEventByIdViews(APIView):
+class GetEventByIdViews(AdminUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
@@ -267,7 +267,7 @@ class GetEventByIdViews(APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
 
-class GetVenuePaymentMethodData(APIView):
+class GetVenuePaymentMethodData(AdminUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:

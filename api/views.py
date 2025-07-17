@@ -152,7 +152,8 @@ class GetCountData(APIView):
 class GetPaymentType(APIView):
     def get(self,request,*args,**kwargs):
         try:
-            return md.PaymentType.objects.all().values() ,200
+            payment = md.PaymentType.objects.all().values()
+            return Response(payment,status = 200)
         except Exception as e:
             print(e)
             return Response(message('Something Went Wrong'),status=500)                                                                         

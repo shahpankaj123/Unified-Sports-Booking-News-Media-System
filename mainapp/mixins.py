@@ -7,7 +7,6 @@ class AdminUserPermissionMixin:
     permission_classes = [permissions.IsAuthenticated, AdminUserPermission]
     authentication_classes = [TokenAuthentication]
 
-
 class VenueUserPermissionMixin:
     permission_classes = [permissions.IsAuthenticated, VenueUserPermission] 
     authentication_classes = [TokenAuthentication]   

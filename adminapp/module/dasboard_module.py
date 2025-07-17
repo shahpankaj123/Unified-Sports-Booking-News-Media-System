@@ -4,6 +4,8 @@ from mainapp import models as md
 from venue import models as smd
 from adds import models as amd
 
+from django.db.models import Sum
+
 from mainapp.selectors.common_functions import message
 
 class DashboardModule:
@@ -25,7 +27,7 @@ class DashboardModule:
             booking_count = smd.Booking.objects.filter(Status__Status = 'Success').count()
             reels_count = 0
 
-            total_income =  smd.PaymentTransaction.objects.filter(PaymentStatus__Status = 'Success').count()
+            total_income =  smd.PaymentTransaction.objects.filter(PaymentStatus__Status = 'Success').aggregate(total = Sum('Amount'))['total']
 
             data = {
                 'normal_user_count':normal_user_count,

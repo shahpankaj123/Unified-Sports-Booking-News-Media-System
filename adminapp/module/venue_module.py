@@ -179,7 +179,7 @@ class VenueModule:
             for v in venue:
                 try:
                     venue_payment_secret_data = smd.OnlinePaymentKhaltiSecretKey.objects.get(Venue__VenueID = v.VenueID)
-                    if venue_payment_secret_data.SecretKey is not None:
+                    if venue_payment_secret_data.PrivateSecretKey is not None:
                         final_data.append({'venueId': str(v.VenueID),'venueName': v.Name,'status': True})
                 except Exception as e:
                     final_data.append({'venueId': str(v.VenueID),'venueName': v.Name,'status': False})

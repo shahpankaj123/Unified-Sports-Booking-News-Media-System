@@ -14,7 +14,7 @@ class ExtraModule:
                 return cache.get('extra') ,200
             
             normal_user_count = d.Users.objects.filter(UserType__UserType = 'NormalUsers').count()
-            booking_count = md.Booking.objects.all().count()
+            booking_count = md.Booking.objects.filter(Status__Status = 'Success').count()
             venue_count = md.Venue.objects.all().count()
             court_count = md.Court.objects.all().count()
             avg_rating = 4.5
