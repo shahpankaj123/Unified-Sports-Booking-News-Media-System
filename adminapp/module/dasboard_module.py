@@ -4,7 +4,7 @@ from mainapp import models as md
 from venue import models as smd
 from adds import models as amd
 
-from django.db.models import Sum
+from django.db.models import Sum ,F ,Count
 
 from mainapp.selectors.common_functions import message
 
@@ -39,7 +39,9 @@ class DashboardModule:
                 'news_count': news_count,
                 'reels_count': reels_count,
                 'booking_count':booking_count,
-                'total_income':total_income
+                'total_income':total_income,
+                'post_statics': amd.Post.objects.values(category = F('Category__SportCategory')).annotate(post_count=Count('PostID')),
+                'reel_statics':amd.Reel.objects.values(category = F('Category__SportCategory')).annotate(post_count=Count('ReelID')),
             }
 
             return data ,200
