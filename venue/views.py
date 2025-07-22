@@ -159,7 +159,7 @@ class DeletePostViews(VenueUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
         
-class GetDashboardViews(VenueUserPermissionMixin ,APIView):
+class GetDashboardViews(APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
