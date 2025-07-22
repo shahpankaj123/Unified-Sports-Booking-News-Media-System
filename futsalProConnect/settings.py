@@ -55,8 +55,6 @@ EXTERNAL_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders', 
-    'drf_yasg',
-    
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + INTERNAL_APPS + EXTERNAL_APPS
@@ -66,7 +64,6 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

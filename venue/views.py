@@ -3,6 +3,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from mainapp import models as md
+
 from mainapp.selectors.common_functions import message
 
 from mainapp.mixins import VenueUserPermissionMixin
@@ -426,7 +428,17 @@ class GetSecreteKey(VenueUserPermissionMixin ,APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                   
+            return Response(message('Something Went Wrong'),status=500)     
+
+class GetCity(VenueUserPermissionMixin ,APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = md.City.objects.all().values() ,200
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)                         
 
                                                                                                                                                                 
                                

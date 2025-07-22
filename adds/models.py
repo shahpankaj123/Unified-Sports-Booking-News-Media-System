@@ -22,6 +22,7 @@ class Post(models.Model):
     def __str__(self):
         return self.Title
     
+    
 class Reel(models.Model):
 
     class Meta:

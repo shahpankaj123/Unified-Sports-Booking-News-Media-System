@@ -55,4 +55,6 @@ urlpatterns = [
 
     path('CreateSecreteKey',vv.CreateSecreteKey.as_view()),
     path('GetSecreteKey',vv.GetSecreteKey.as_view()),
+
+    path('GetCity',vv.GetCity.as_view()),
 ]
