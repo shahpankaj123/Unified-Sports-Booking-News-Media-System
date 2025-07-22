@@ -198,6 +198,16 @@ class UploadVenueImageViews(VenueUserPermissionMixin ,APIView):
         except Exception as e:
             print(e)
             return Response(message('Something Went Wrong'),status=500)  
+        
+class DeleteVenueImageViews(VenueUserPermissionMixin ,APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = VenueModule(data=data ,request=request).remove_venue_image()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)          
 
 class GetCourtViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
