@@ -44,17 +44,8 @@ class TicketModule:
     def get_all_ticket(self):
         try:
             date = self.data['date']
-            court_id = self.data['courtId']
-
-            ticket = vmd.Booking.objects.filter(Availability__Court__CourtID = court_id,Availability__Date = date,PaymentMethod__PaymentTypeName = 'Online',Status__Status__in = ['Pending' ,'Rejected'])
-            for t in ticket:
-                t.Availability.IsActive = 1
-                t.Availability.save()
-                t.save()
-
-            time.sleep(2)    
+            court_id = self.data['courtId'] 
             return vmd.Availability.objects.filter(Court__CourtID = court_id ,Date = date).values(id = F('ID') ,date = F('Date') ,startTime = F('StartTime') ,endTime = F('EndTime') ,isActive = F('IsActive') ,rate =F('SpecialRate')).order_by('-CreatedAt') ,200
-        
         except Exception as e:
             print(e)
             return message('Somthing Went Wrong') ,500 

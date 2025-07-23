@@ -45,7 +45,7 @@ class KhaltiPaymentModule:
                 
             with transaction.atomic():
                 payment =vmd.PaymentTransaction.objects.create(Amount = total_price ,PaymentStatus = self.status ,PaymentMethod = self.pay_method)
-                payment.Bookings.set(book_list)
+                payment.Bookings.set(book_list)   
 
             if self.pay_method.PaymentTypeName == 'Online':
                 url = "https://dev.khalti.com/api/v2/epayment/initiate/"
@@ -77,7 +77,8 @@ class KhaltiPaymentModule:
             return message(f'{k} is Missing') ,400
         except Exception as e:
             print(e)
-            return message('Something Went Wrong') ,500       
+            return message('Something Went Wrong') ,500     
+          
 
     def verify_khalti_payment(self ,pidx):
         try:
