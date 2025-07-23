@@ -64,6 +64,7 @@ class KhaltiPaymentModule:
                     })
                 
                 response = requests.request("POST", url, headers= self.headers, data=payload)
+                print(response.json())
                 return response.json(), 200 
 
             return { 
