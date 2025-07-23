@@ -11,8 +11,14 @@ import json
 
 import pickle
 import random
+import time
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 from mainapp.selectors.common_functions import message,is_none
+
+from mainapp.mixins import AdminUserPermissionMixin
 
 class CreateDataset(APIView):
     def get(self,request,*args,**kwargs):
@@ -20,6 +26,28 @@ class CreateDataset(APIView):
         df = pd.DataFrame(news_qs)
         df.to_csv('Recommendation_model/dataset/dataset.csv',index=False)
         return Response([],200)
+    
+class TrainModels(AdminUserPermissionMixin ,APIView):
+    def get(self,request,*args,**kwargs):
+        try:
+            news_qs = ad.Post.objects.all().values(id = F('PostID'), desc = F('Description'), category =F('Category__SportCategory'), title = F('Title'),img = F('PostImage'))
+            df = pd.DataFrame(news_qs)
+            df.to_csv('Recommendation_model/dataset/dataset.csv',index=False)
+            time.sleep(2)
+            df = pd.read_csv('Recommendation_model/dataset/dataset.csv')
+            df['content'] = df['title'] + " "  + df['desc'] + " " + df['category']
+            tfidf = TfidfVectorizer(stop_words='english')
+            tfidf_matrix = tfidf.fit_transform(df['content'])
+            cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+
+            pickle.dump(df,open('Recommendation_model/model/news_list.pkl','wb'))
+            pickle.dump(cosine_sim,open('Recommendation_model/model/similarity.pkl','wb'))
+
+            return Response(message('Models Successfully Trained') ,200)
+
+        except Exception as e:
+            print(e)  
+            return Response(message('Models Trained Failed') ,500)  
     
 class GetRecommendNews(APIView):
 
@@ -42,12 +70,12 @@ class GetRecommendNews(APIView):
                 id = random.choice(list_id)
             df = pd.DataFrame(pickle.load(open('Recommendation_model/model/news_list.pkl','rb')))
             model = pd.DataFrame(pickle.load(open('Recommendation_model/model/similarity.pkl','rb')))
-            data = self.get_recommendations(df=df ,model=model ,news_id= id ,top_n=7)
+            data = self.get_recommendations(df=df ,model=model ,news_id= id ,top_n=5)
             final_data = self.format_data(data=data)
             return Response(final_data,200)
         except Exception as e:
             print(e)
-            news_qs = ad.Post.objects.all().values(id = F('PostID'), desc = F('Description'), category =F('Category__SportCategory'), title = F('Title'),img = F('PostImage'))[0:7]
+            news_qs = ad.Post.objects.all().values(id = F('PostID'), desc = F('Description'), category =F('Category__SportCategory'), title = F('Title'),img = F('PostImage'))[0:5]
             return Response(news_qs,200)
 
         

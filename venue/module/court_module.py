@@ -17,7 +17,7 @@ class CourtModule:
             final_data = []
             for court in court_obj:
                 court_img = court.courts_images.all()
-                data = vmd.Court.objects.values(courtId = F('CourtID') ,courtName = F('Name'),courtType = F('SurfaceType'),courtCategory = F('SportCategory__SportCategory'),hourlyRate = F('HourlyRate'),isActive = F('IsActive')).get(CourtID = court.CourtID)
+                data = vmd.Court.objects.values(courtId = F('CourtID') ,courtName = F('Name'),courtType = F('SurfaceType'),courtCategoryId = F('SportCategory__SportCategoryID'),courtCategory = F('SportCategory__SportCategory'),hourlyRate = F('HourlyRate'),isActive = F('IsActive')).get(CourtID = court.CourtID)
                 data['courtImage'] = ["http://127.0.0.1:8000/media/" + x['Image'] for x in  court_img.values('Image')]
                 final_data.append(data)
             return final_data , 200
@@ -30,7 +30,7 @@ class CourtModule:
             court_id = self.data['courtId']
             court = vmd.Court.objects.get(CourtID = court_id)
             court_img = court.courts_images.all()
-            data = vmd.Court.objects.values(courtId = F('CourtID') ,courtName = F('Name'),courtType = F('SurfaceType'),courtCategory = F('SportCategory__SportCategory'),hourlyRate = F('HourlyRate'),isActive = F('IsActive')).get(CourtID = court.CourtID)
+            data = vmd.Court.objects.values(courtId = F('CourtID') ,courtName = F('Name'),courtType = F('SurfaceType'),courtCategoryId = F('SportCategory__SportCategoryID'),courtCategory = F('SportCategory__SportCategory'),hourlyRate = F('HourlyRate'),isActive = F('IsActive')).get(CourtID = court.CourtID)
             data['courtImage'] = ["http://127.0.0.1:8000/media/" + x['Image'] for x in  court_img.values('Image')]
             return data , 200
         except vmd.Court.DoesNotExist:
