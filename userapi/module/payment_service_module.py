@@ -37,11 +37,11 @@ class KhaltiPaymentModule:
             for t in self.ticket_id:
                 with transaction.atomic():
                     self.ticket_data = vmd.Availability.objects.get(ID = t)
-                    book = vmd.Booking.objects.create(User = self.usr ,Availability = self.ticket_data , Status = self.status ,PaymentMethod = self.pay_method ,TotalPrice = self.ticket_data.SpecialRate)   
-                    book_list.append(book)  
-
                     self.ticket_data.IsActive = 0
                     self.ticket_data.save()
+
+                    book = vmd.Booking.objects.create(User = self.usr ,Availability = self.ticket_data , Status = self.status ,PaymentMethod = self.pay_method ,TotalPrice = self.ticket_data.SpecialRate)   
+                    book_list.append(book)  
                 
             with transaction.atomic():
                 payment =vmd.PaymentTransaction.objects.create(Amount = total_price ,PaymentStatus = self.status ,PaymentMethod = self.pay_method)
