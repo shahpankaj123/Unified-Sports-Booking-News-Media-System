@@ -429,6 +429,16 @@ class CreateSecreteKey(VenueUserPermissionMixin ,APIView):
         except Exception as e:
             print(e)
             return Response(message('Something Went Wrong'),status=500) 
+        
+class UpdateSecreteKey(VenueUserPermissionMixin ,APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = PaymentSecreatKeyModule(data=data).update()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)         
 
 class GetSecreteKey(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
