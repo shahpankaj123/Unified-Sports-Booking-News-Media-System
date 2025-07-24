@@ -18,6 +18,9 @@ class VenueApplicationModule:
             email = self.data['email']
             pan_number = self.data['panNumber']
 
+            if vmd.VenueApplication.objects.filter(Applicant__UserID = user_id).count() >=3:
+                return message('Limit Exceed for Applying') ,400
+
             user = md.Users.objects.get(UserID = user_id)
             city = md.City.objects.get(CityID = city_id)
 

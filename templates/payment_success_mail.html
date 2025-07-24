@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ topic }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+    <div style="max-width: 600px; margin: auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+
+        <h2 style="text-align: center; color: #333;">{{ topic }}</h2>
+        <p style="text-align: center; color: #666;">{{ desc }}</p>
+
+        <table style="width: 100%; margin-top: 30px; border-collapse: collapse;">
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Payment Method:</strong></td>
+                <td style="padding: 10px;">{{ payment_method }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Payment Status:</strong></td>
+                <td style="padding: 10px;">{{ payment_status }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Court Name:</strong></td>
+                <td style="padding: 10px;">{{ court_name }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Date:</strong></td>
+                <td style="padding: 10px;">{{ date }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Time:</strong></td>
+                <td style="padding: 10px;">{{ ticket_time }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Price:</strong></td>
+                <td style="padding: 10px;">Rs. {{ price }}</td>
+            </tr>
+        </table>
+
+        <p style="margin-top: 30px; text-align: center;">
+            <a style="display: inline-block; padding: 12px 25px; background-color: blue; color: white; text-decoration: none; border-radius: 4px;" href="{{ activation_url }}">
+                View Booking
+            </a>
+        </p>
+
+        <p style="margin-top: 50px; font-size: 13px; text-align: center; color: #999;">
+            If you face difficulties with your booking, kindly contact us at: <a href="mailto:demo@gmail.com">demo@gmail.com</a>
+        </p>
+    </div>
+</body>
+</html>

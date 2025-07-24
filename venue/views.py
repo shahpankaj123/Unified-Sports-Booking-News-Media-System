@@ -334,7 +334,7 @@ class GetNotificationViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
-            res_data,res_status = NotificationModule(data=data,request=request).get_all_notification()
+            res_data,res_status = NotificationModule(data=data).get_all_notification()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
@@ -344,7 +344,7 @@ class GetNotificationByIdViews(VenueUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
-            res_data,res_status = NotificationModule(data=data,request=request).get_notification_by_id()
+            res_data,res_status = NotificationModule(data=data).get_notification_by_id()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)

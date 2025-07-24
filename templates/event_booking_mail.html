@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Confirmation</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
+
+    <div style="max-width: 600px; margin: auto; background-color: white; border-radius: 10px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+
+        <h2 style="color: #2c3e50; text-align: center;">🏟️ Booking Confirmed</h2>
+        <p style="text-align: center; color: #555;">Thank you for booking with us. Here are your booking details:</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Court Name</strong></td>
+                <td style="padding: 10px;">{{ courtName }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Event Name</strong></td>
+                <td style="padding: 10px;">{{ eventTitle }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Date</strong></td>
+                <td style="padding: 10px;">{{ date }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Time</strong></td>
+                <td style="padding: 10px;">{{ time }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; background-color: #f0f0f0;"><strong>Token</strong></td>
+                <td style="padding: 10px;">{{ token }}</td>
+            </tr>
+        </table>
+        <hr style="margin-top: 40px;">
+
+        <p style="font-size: 13px; color: #888; text-align: center;">
+            For any issues, please contact us at <a href="mailto:support@example.com">support@example.com</a>
+        </p>
+    </div>
+
+</body>
+</html>
