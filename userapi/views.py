@@ -12,6 +12,7 @@ from mainapp.selectors.common_functions import message
 from mainapp.mixins import NormalUserPermissionMixin
 from venue.module.notification_module import NotificationModule
 from userapi.module.event_module import EventModule
+from userapi.module.venue_application_module import VenueApplicationModule
 
 # Create your views here.
 class GetDashBoardData(NormalUserPermissionMixin ,APIView):
@@ -93,5 +94,26 @@ class GetRegisteredEventViews(NormalUserPermissionMixin ,APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)                        
+            return Response(message('Something Went Wrong'),status=500) 
+
+class CreateVenueApplication(NormalUserPermissionMixin ,APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = VenueApplicationModule(data=data).create_application()
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500) 
+        
+class UploadVenueApplicationDoc(NormalUserPermissionMixin ,APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        try:
+            res_data,res_status = VenueApplicationModule(data=data).upload_doc(request=request)
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)         
+                               
 
