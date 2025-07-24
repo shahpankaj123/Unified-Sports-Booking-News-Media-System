@@ -53,7 +53,7 @@ class VenueModule:
             print("cached data")
             return cache.get('courts_all') ,200
         final_data = []
-        court = smd.Court.objects.filter(Venue__IsActive = True)
+        court = smd.Court.objects.filter(Venue__IsActive = True,IsActive= True)
         for c in court:
             court_data = {
                     "courtID": str(c.CourtID),
@@ -126,26 +126,27 @@ class VenueModule:
                 "courts": []
             }
 
-            for court in venue.venue.all():  # related_name='venue'
-                court_data = {
-                    "courtID": str(court.CourtID),
-                    "name": court.Name,
-                    "sportCategory": court.SportCategory.SportCategory if court.SportCategory else None,
-                    "surfaceType": court.SurfaceType,
-                    "capacity": court.Capacity,
-                    "hourlyRate": float(court.HourlyRate),
-                    "isActive": court.IsActive,
-                    "createdAt": court.CreatedAt.strftime("%Y-%m-%d %H:%M:%S"),
-                    "courtImages": [
-                        {
-                            "imageID": str(img.ImageID),
-                            "image": "http://127.0.0.1:8000/media/" + str(img.Image) if img.Image else None,
-                            "createdAt": img.CreatedAt.strftime("%Y-%m-%d %H:%M:%S"),
-                        }
-                        for img in court.courts_images.all()
-                    ]
-                }
-                venue_data["courts"].append(court_data)
+            for court in venue.venue.all():
+                if court.IsActive:  
+                    court_data = {
+                        "courtID": str(court.CourtID),
+                        "name": court.Name,
+                        "sportCategory": court.SportCategory.SportCategory if court.SportCategory else None,
+                        "surfaceType": court.SurfaceType,
+                        "capacity": court.Capacity,
+                        "hourlyRate": float(court.HourlyRate),
+                        "isActive": court.IsActive,
+                        "createdAt": court.CreatedAt.strftime("%Y-%m-%d %H:%M:%S"),
+                        "courtImages": [
+                            {
+                                "imageID": str(img.ImageID),
+                                "image": "http://127.0.0.1:8000/media/" + str(img.Image) if img.Image else None,
+                                "createdAt": img.CreatedAt.strftime("%Y-%m-%d %H:%M:%S"),
+                            }
+                            for img in court.courts_images.all()
+                        ]
+                    }
+                    venue_data["courts"].append(court_data)
             cache.set(f'venue_{venue_id}',venue_data,timeout=30)
             return venue_data ,200
 
@@ -163,7 +164,7 @@ class VenueModule:
             return cache.get(f'cout_{court_id}') ,200
         
         try:
-            court = smd.Court.objects.get(CourtID = court_id) 
+            court = smd.Court.objects.get(CourtID = court_id ,IsActive = 1) 
         except smd.Court.DoesNotExist:
             return message('Court Not Found') ,200    
 
