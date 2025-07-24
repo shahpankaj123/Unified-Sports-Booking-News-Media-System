@@ -6,9 +6,8 @@ from datetime import timedelta
 from mainapp.selectors.common_functions import message
 
 class NotificationModule:
-    def __init__(self , data ,request):
+    def __init__(self , data ):
         self.data = data
-        self.request = request
 
     def get_all_notification(self):
         try:

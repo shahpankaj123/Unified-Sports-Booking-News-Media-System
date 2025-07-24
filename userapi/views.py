@@ -59,7 +59,7 @@ class GetNotificationViews(NormalUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
-            res_data,res_status = NotificationModule(data=data,request=request).get_all_notification()
+            res_data,res_status = NotificationModule(data=data).get_all_notification()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
@@ -69,7 +69,7 @@ class GetNotificationByIdViews(NormalUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
-            res_data,res_status = NotificationModule(data=data,request=request).get_notification_by_id()
+            res_data,res_status = NotificationModule(data=data).get_notification_by_id()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
@@ -79,7 +79,7 @@ class RegisteredEventViews(NormalUserPermissionMixin ,APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
-            res_data,res_status = EventModule(data=data,request=request).registered_event()
+            res_data,res_status = EventModule(data=data).registered_event()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
@@ -89,7 +89,7 @@ class GetRegisteredEventViews(NormalUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
-            res_data,res_status = EventModule(data=data,request=request).get_registered_details()
+            res_data,res_status = EventModule(data=data).get_registered_details()
             return Response(res_data,res_status)
         except Exception as e:
             print(e)

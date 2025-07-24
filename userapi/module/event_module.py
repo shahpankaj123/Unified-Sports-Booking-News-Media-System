@@ -23,6 +23,9 @@ class EventModule:
             user = md.Users.objects.get(UserID = user_id)
             token = random.randint(1,10000)
 
+            if vmd.EventRegisteredRecord.objects.filter(Event= event,User = user).exists():
+                return message('Already Registered') ,400
+
             if vmd.EventRegisteredRecord.objects.filter(Event__EventId = event_id).count() >= event.MaximunSeat:
                 return message('Seat are Packed !sorry') ,400
 
