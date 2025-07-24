@@ -206,6 +206,7 @@ class EventRegisteredRecord(models.Model):
     Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     Event = models.ForeignKey(Event, on_delete=models.SET_NULL,null=True) 
     User = models.ForeignKey(md.Users,on_delete=models.SET_NULL,null= True) 
+    Token = models.CharField(max_length=10,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)    
 

@@ -9,4 +9,6 @@ urlpatterns = [
         path('GetDashBoardData',vv.GetDashBoardData.as_view()),
         path('GetNotification',vv.GetNotificationViews.as_view()),
         path('GetNotificationById',vv.GetNotificationByIdViews.as_view()),
+        path('RegisteredEvent',vv.RegisteredEventViews.as_view()),
+        path('GetRegisteredEvent',vv.GetRegisteredEventViews.as_view()),
 ]

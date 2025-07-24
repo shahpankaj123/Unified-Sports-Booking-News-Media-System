@@ -10,8 +10,8 @@ class ExtraModule:
 
     def get_count_data(self):
         try:
-            if cache.get('extra'):
-                return cache.get('extra') ,200
+            if cache.get('extra_data'):
+                return cache.get('extra_data') ,200
             
             normal_user_count = d.Users.objects.filter(UserType__UserType = 'NormalUsers').count()
             booking_count = md.Booking.objects.filter(Status__Status = 'Success').count()
@@ -26,7 +26,7 @@ class ExtraModule:
                 'court_count':court_count,
                 'avg_rating': avg_rating
             } 
-            cache.set('extra' , data , timeout=60)
+            cache.set('extra_data' , data , timeout=60)
             return data ,200
         
         except Exception as e:
