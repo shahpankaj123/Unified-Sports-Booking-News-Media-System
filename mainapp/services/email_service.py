@@ -84,17 +84,23 @@ def send_payment_email(recipient_email, payment_data : vmd.PaymentTransaction):
         print(e)
         pass        
 
-def __payment_success_mail(recipient_email, payment_invoice_url):
-    subject = 'Payment Successful'
+def __payment_success_mail(recipient_email, payment_data: vmd.PaymentTransaction):
+    subject = 'Payment Confirmation'
     from_email = settings.EMAIL_HOST_USER
     to = [recipient_email]
 
     html_content = render_to_string(
         'payment_success_mail.html',
         {
-            'activation_url': payment_invoice_url,
-            'topic': 'Payment Successful',
-            'desc': 'We have successfully received your payment. You can download your invoice below.'
+            'topic': 'Payment Confirmation',
+            'desc': 'We have successfully received your payment. You can download your invoice below.',
+            'payment_method':payment_data.PaymentMethod.PaymentTypeName,
+            'payment_status':payment_data.PaymentStatus.Status,
+            'court_name' : payment_data.Bookings.first().Availability.Court.Name,
+            'date':payment_data.CreatedAt.date(),
+            'ticket_time':payment_data.CreatedAt.time(),
+            'price':payment_data.Amount,
+            'activation_url':f'http://localhost:3000/dashboard/bookings',
         }
     )
     text_content = strip_tags(html_content)

@@ -18,4 +18,6 @@ urlpatterns = [
 
     path('CreateVenueApplication',vv.CreateVenueApplication.as_view()),
     path('UploadVenueApplicationDoc',vv.UploadVenueApplicationDoc.as_view()),
+
+    path('GetCity',vv.GetCity.as_view()),
 ]

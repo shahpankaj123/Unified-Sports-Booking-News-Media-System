@@ -7,7 +7,10 @@ from mainapp.selectors.common_functions import message
 from django.db.models import F,Value,CharField
 from django.db.models.functions import Concat
 
+from mainapp.services.email_service import send_event_book_email
+
 import random
+from datetime import datetime
 
 class EventModule:
 
@@ -29,7 +32,16 @@ class EventModule:
             if vmd.EventRegisteredRecord.objects.filter(Event__EventId = event_id).count() >= event.MaximunSeat:
                 return message('Seat are Packed !sorry') ,400
 
-            vmd.EventRegisteredRecord.objects.create(Event= event,User = user ,Token = token)
+            event_data = vmd.EventRegisteredRecord.objects.create(Event= event,User = user ,Token = token)
+
+            # sms send
+            try:
+                send_event_book_email(recipient_email=user.Email ,event_data= event_data)
+                md.Notification.objects.create(Message = f'You are Registered to Event of Court Name : {event.Court.Name}' ,User = user ,Date = datetime.now().date())
+            except Exception as e:
+                print(e)
+                pass    
+            
             return message('Event Created Successfully') ,201
         except KeyError as k:
             return message(f'{k} is Missing') ,400

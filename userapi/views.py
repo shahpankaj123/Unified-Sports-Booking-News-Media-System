@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from mainapp import models as md
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -76,7 +77,7 @@ class GetNotificationByIdViews(NormalUserPermissionMixin ,APIView):
             print(e)
             return Response(message('Something Went Wrong'),status=500)   
 
-class RegisteredEventViews(NormalUserPermissionMixin ,APIView):
+class RegisteredEventViews(APIView):
     def post(self,request,*args,**kwargs):
         data = request.data
         try:
@@ -114,6 +115,17 @@ class UploadVenueApplicationDoc(NormalUserPermissionMixin ,APIView):
             return Response(res_data,res_status)
         except Exception as e:
             print(e)
-            return Response(message('Something Went Wrong'),status=500)         
+            return Response(message('Something Went Wrong'),status=500)    
+
+
+class GetCity(NormalUserPermissionMixin  ,APIView):
+    def get(self,request,*args,**kwargs):
+        data = request.GET
+        try:
+            res_data,res_status = md.City.objects.all().values() ,200
+            return Response(res_data,res_status)
+        except Exception as e:
+            print(e)
+            return Response(message('Something Went Wrong'),status=500)               
                                
 

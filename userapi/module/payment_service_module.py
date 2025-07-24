@@ -4,6 +4,8 @@ from mainapp import models as md
 from mainapp.selectors import selector as sc
 from mainapp.selectors.common_functions import message
 
+from mainapp.services.email_service import send_payment_email
+
 from django.db import transaction
 from datetime import datetime
 
@@ -110,7 +112,14 @@ class KhaltiPaymentModule:
                         booking.save()
 
                     payment.save()
-                    md.Notification.objects.create(Message = f'{payment.Bookings.first().Availability.Court.Name} Ticket has Been Booked Successfully',User = usr , Date = datetime.now().date())
+
+                    # sms send task
+                    try:
+                        send_payment_email(recipient_email = usr.Email ,payment_data = payment)
+                        md.Notification.objects.create(Message = f'{payment.Bookings.first().Availability.Court.Name} Ticket has Been Booked Successfully',User = usr , Date = datetime.now().date())
+                    except Exception as e:
+                        print(e)
+                        pass    
 
                 return message('Payment Verified Success') ,200    
 
@@ -127,7 +136,14 @@ class KhaltiPaymentModule:
                         booking.save()
 
                     payment.save()
-                    md.Notification.objects.create(Message = f'{payment.Bookings.first().Availability.Court.Name} Ticket has Been Rejected',User = usr , Date = datetime.now().date())
+
+                    # sms send 
+                    try:
+                        send_payment_email(recipient_email = usr.Email ,payment_data = payment)
+                        md.Notification.objects.create(Message = f'{payment.Bookings.first().Availability.Court.Name} Ticket has Been Rejected',User = usr , Date = datetime.now().date())
+                    except Exception as e:
+                        print(e)
+                        pass    
 
                 return message('Payment Verified Failed') ,400
             
