@@ -20,7 +20,7 @@ class DashboardModule:
             data['rejected_books'] = vmd.Booking.objects.filter(Availability__Court__Venue__Owner__UserID = user_id ,Status__Status = 'Rejected').count()
             data['pending_books'] = vmd.Booking.objects.filter(Availability__Court__Venue__Owner__UserID = user_id ,Status__Status = 'Pending').count()
             data['total_courts'] = vmd.Court.objects.filter(Venue__Owner__UserID = user_id).count()
-            data['total_earnings'] = vmd.Booking.objects.filter(Availability__Court__Venue__Owner__UserID = user_id ,Status__Status = 'Success').aggregate(Sum('TotalPrice'))['TotalPrice__sum']
+            data['total_earnings'] = vmd.PaymentTransaction.objects.filter(Bookings__Availability__Court__Venue__Owner__UserID = user_id ,PaymentStatus__Status = 'Success').aggregate(price = Sum('Amount'))['price']
 
             data['post_statics']=amd.Post.objects.values(category = F('Category__SportCategory')).annotate(post_count=Count('PostID'))
             data['reel_statics']=amd.Reel.objects.values(category = F('Category__SportCategory')).annotate(post_count=Count('ReelID'))
