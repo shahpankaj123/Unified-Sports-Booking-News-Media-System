@@ -96,7 +96,7 @@ class EventModule:
             event_id = self.data['eventId']
             if cache.get(f'event_user_{event_id}'):
                 return cache.get(f'event_user_{event_id}') ,200
-            data = vmd.EventRegisteredRecord.objects.filter(Event__EventId = event_id).values(firstName = F('User__FirstName') ,lastName =F('User__LastName'),email = F('User__Email')).order_by('-created_at')
+            data = vmd.EventRegisteredRecord.objects.filter(Event__EventId = event_id).values(firstName = F('User__FirstName') ,lastName =F('User__LastName'),email = F('User__Email'),phoneNumber = F('User__PhoneNumber')).order_by('-created_at')
             cache.set(f'event_user_{event_id}' ,data ,timeout=60)
             return data ,200
         except KeyError as k:
