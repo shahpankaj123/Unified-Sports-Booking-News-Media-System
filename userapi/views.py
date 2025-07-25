@@ -118,7 +118,7 @@ class UploadVenueApplicationDoc(NormalUserPermissionMixin ,APIView):
             return Response(message('Something Went Wrong'),status=500)    
 
 
-class GetCity(NormalUserPermissionMixin  ,APIView):
+class GetCity(NormalUserPermissionMixin ,APIView):
     def get(self,request,*args,**kwargs):
         data = request.GET
         try:
