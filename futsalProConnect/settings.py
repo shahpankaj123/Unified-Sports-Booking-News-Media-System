@@ -198,8 +198,8 @@ EMAIL_BACKEND = 'futsalProConnect.email_backends.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = config('email_user')
-EMAIL_HOST_PASSWORD = config('email_pass')
+EMAIL_HOST_USER ='pankajsha128@gmail.com'
+EMAIL_HOST_PASSWORD = 'glcsxohcvwwdmyqn'
 EMAIL_USE_SSL = False
 
 
